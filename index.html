@@ -19,7 +19,7 @@
                 <div class="header-logo">
                     <h1><a href="index.html"><img src="img/square_logo.png" id="logo"></a></h1>
                 </div>
-                
+
                 <!-- ハンバーガーメニューボタン -->
                 <div class="toggle">
                     <div>
@@ -34,6 +34,7 @@
                         <li><a href="index.html#service">サービス</a></li>
                         <li><a href="index.html#news">お知らせ</a></li>
                         <li><a href="index.html#about">会社概要</a></li>
+                        <li><a href="index.html#contact">お問合せ</a></li>
                     </ul>
                 </nav>
 
@@ -42,6 +43,7 @@
                         <li><a href="index.html#service">サービス</a></li>
                         <li><a href="index.html#news">お知らせ</a></li>
                         <li><a href="index.html#about">会社概要</a></li>
+                        <li><a href="index.html#contact">お問合せ</a></li>
                     </ul>
                 </nav>
             </div>
@@ -113,7 +115,7 @@
             <!-- end サービス一覧 -->
 
             <!-- 会社概要 -->
-            <div class="wrapper last-wrapper" id="about">
+            <div class="wrapper" id="about">
                 <div class="container">
                     <div class="wrapper-title">
                         <h3>ABOUT US</h3>
@@ -145,6 +147,32 @@
                 </div>
             </div>
             <!-- end 会社概要 -->
+
+            <!-- お問合せ -->
+            <div class="wrapper last-wrapper" id="contact">
+                <div class="container">
+                    <div class="wrapper-title">
+                        <h3>CONTACT</h3>
+                        <p>お問い合わせ</p>
+                    </div>
+                    <form method="POST" action="confirm.php">
+                        <div class="form-group">
+                            <p>お名前 *</p>
+                            <input type="text" name="name">                     
+                        </div>
+                        <div class="form-group">
+                            <p>Email *</p>
+                            <input type="email" name="email">
+                        </div>
+                        <div class="form-group">
+                            <p>お問合せ内容 *</p>
+                            <textarea name="text"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-submit">内容を確認する</button>
+                    </form>
+                </div>
+            </div>
+            <!-- end お問合せ -->
         </main>
         <footer>
             <div class="container">
@@ -154,7 +182,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function(){
-　　　　    // ハンバーガーメニューの動作
+                // ハンバーガーメニューの動作
                 $('.toggle').click(function(){
                             $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);

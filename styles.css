@@ -28,9 +28,18 @@ html {
    padding: 0 15px; 
 }
 
-a:hover {
+a:hover,
+.btn:hover {
     opacity: 0.6;
     cursor: pointer;
+}
+
+.btn {
+    padding: 10px 20px;
+    font-size: 15px;
+    border-radius: 5px;
+    border: none;
+    margin-top: 20px;
 }
 
 h2 {
@@ -63,6 +72,28 @@ h4 {
     .last-wrapper {
         margin-bottom: 80px;
     }
+
+.wrapper-body{
+    text-align: center;
+}
+        
+.news-list,
+form {
+    width: 80%;
+    margin: 0 auto;
+}
+        
+.btn-submit {
+    background-color: #4c586f;
+    color: #fff;
+}
+
+.btn-gray {
+    border: 1px solid #3e3e3b;
+    color: #3e3e3b;
+}
+    
+        
 
 /* header */
 header {
@@ -123,11 +154,6 @@ header {
 }
 
 /* news */
-.news-list {
-    width: 80%;
-    margin: 0 auto;
-}
-
 .news-list li {
     padding-bottom: 10px;
     margin-bottom: 20px;
@@ -171,6 +197,36 @@ header {
         width: 100%;
     }
 
+/* contact */
+form  {
+    text-align: center;
+}
+    
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+    
+input,
+textarea {
+    width: 100%;
+    border: 1px solid #ebeced;
+}
+    
+    input {
+        height: 25px;
+    }
+    
+    textarea {
+        height: 200px;
+    }
+    
+.error {
+    font-size: 12px;
+    color: #d84950;
+}
+    
+
 /* footer */
 footer {
     height: 80px;
@@ -192,3 +248,19 @@ footer {
 .page-text {
     padding: 20px 0 80px;
 }
+
+/* confirm.php */
+.conf-form {
+    background-color: #ebeced;
+    padding: 30px;
+}
+
+/* send.php */
+.thanks{
+    background-color: #ebeced;
+    padding: 80px 0;
+}
+    
+    .thanks h4 {
+        margin-bottom: 10px;
+    }

@@ -106,4 +106,9 @@
         width: 100%;
         display: block;
     }
+
+    /* confirm.php */
+    form {
+        width: auto;
+    }
 }
