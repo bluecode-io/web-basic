@@ -73,6 +73,11 @@ header {
     width: 100%;
 }
 
+    /* スマホ用メニューを非表示 */
+    .sp-menu {
+        display: none;
+    }
+
     #logo {
         width: 120px;
     }

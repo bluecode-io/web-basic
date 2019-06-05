@@ -1,0 +1,109 @@
+/* タブレット用 */
+@media screen and (max-width: 1024px) {
+    /* 共通CSS */
+    .wrapper {
+        width: 80%;
+    }
+}
+
+/* スマホ用 */
+@media screen and (max-width: 660px) {
+    /* 共通CSS */
+    h2 {
+        font-size: 30px;
+    }
+
+    h3 {
+        font-size: 25px;
+    }
+
+    h4 {
+        font-size: 14px;
+    }
+
+    a, p, th, td {
+        font-size: 13px;
+    }
+
+    .wrapper {
+        width: 90%;
+    }
+
+    /* header */
+    /* PC用メニューを非表示 */
+    .pc-menu {
+        display: none;
+    }
+
+    /* スマホ用メニュー表示 */
+    .sp-menu {
+        margin: 0 auto;
+        width: 90%;
+        position: absolute;
+        top: 60px;
+        width: 100%;
+        background: rgba(76, 88, 111, .8);
+        left: 0;
+    }
+
+    .sp-menu ul li{
+        margin: 0 auto;
+        text-align: center;
+    }
+
+    /* メニューボタン */
+    .toggle {
+        display: block;
+        width: 35px;
+        height: 30px;
+        position: relative;
+        top: 18px;
+        z-index: 2;
+        float: right;
+    }
+
+    .toggle:hover {
+        cursor: pointer;
+    }
+
+    .toggle span{
+        display: block;
+        height: 3px;
+        background: #fff;
+        position:absolute;
+        width: 100%;
+        left: 0;
+        -webkit-transition: 0.5s ease-in-out;
+        -moz-transition: 0.5s ease-in-out;
+        transition: 0.5s ease-in-out;   
+    }
+    .toggle span:nth-child(1){
+        top:0px;
+    }
+    .toggle span:nth-child(2){
+        top:12px;
+    }
+    .toggle span:nth-child(3){
+        top:24px;
+    }
+
+    /* top-img */
+    .top-img {
+        height: 350px;
+    }
+
+    .top-text {
+        transform: translate(-50%, -40%);
+    }
+
+    /* news */
+    .news-list{
+        width: 100%;
+    }
+
+    /* about */   
+    .about-table th, td {
+        width: 100%;
+        display: block;
+    }
+}
