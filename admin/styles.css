@@ -47,24 +47,68 @@ html {
         color: #a2aab0;
     }
 
+a:hover,
+.btn:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
+    
 .btn {
     padding: 10px 30px;
     font-size: 15px;
-    border-radius: 20px;
     border: none;
-    margin-top: 20px;
+    margin: 5px 0;
+    border-radius: 5px;
 }
-
-.btn:hover{
-    cursor: pointer;
-    opacity: .8;
-}
-
+    
 .btn-submit {
     background-color: #4c586f;
+    border: 1px solid #4c586f;
     color: #fff;
 }
-
+    
+.btn-green {
+    background-color: #20c977;
+    border: 1px solid #20c977;
+    color: #fff;
+    padding: 5px 10px;
+    font-size: 15px;
+}
+    
+.btn-red {
+    border: 1px solid #d84950;
+    color: red;
+    padding: 5px 10px;
+    font-size: 15px;
+}
+    
+.btn-blue {
+    background-color: #4a80d6;
+    border: 1px solid #4a80d6;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 15px;
+}
+    
+.form-group {
+    margin-bottom: 20px;
+    text-align: left;
+}
+    
+input,
+textarea {
+    width: 100%;
+    border: 1px solid #ebeced;
+    border-radius: 5px;
+}
+    
+    input {
+        height: 25px;
+    }
+    
+    textarea {
+        height: 300px;
+    }
 /* login */
 .login-wrapper {
     text-align: center;
@@ -103,10 +147,6 @@ html {
 
     .login-form p {
         text-align: left;
-    }
-
-    .form-group {
-        margin-bottom: 10px;
     }
 
 /* dashboard.html */
@@ -190,4 +230,41 @@ footer {
         line-height: 80px;
         color: #fff;
         font-size: 12px;
+    }
+
+/* create_news */
+.edit-form {
+    width: 80%;
+    margin: 0 auto;
+}
+    
+    .edit-form input,
+    .edit-form textarea{
+        width: 100%;
+        border: 1px solid #a2aab0;
+    }
+    
+    .edit-form button{
+        float:right;
+    }
+    
+    .edit-form textarea {
+        height: 300px;
+    }
+
+/* news.php */
+.list table{
+    border-collapse: collapse;
+    margin: 20px 0;
+    width: 100%;
+}
+
+    .list th,
+    .list td {
+        border:1px solid #a2aab0;
+        padding: 20px 10px;
+    }
+
+    .list th {
+        background-color: #ebeced;
     }
