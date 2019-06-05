@@ -17,6 +17,12 @@
         //各商品の小計を$totalに足す
         $total += $subtotal;
     }
+    $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login'] : false;
+    if($user_login==true){
+        $total = $total*0.7;
+    }
+
+    $_SESSION['total_price'] = $total;
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,7 +87,11 @@
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
@@ -97,7 +107,11 @@
                 <nav class="pc-menu menu-right menu">
                     <ul>
                         <li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>
@@ -145,12 +159,22 @@
                                 <?php endforeach; ?>
                                 <tr class="total">
                                     <th colspan="3">合計</th>
-                                    <td colspan="2">¥<?php echo $total; ?></td>
+                                    <td colspan="2">
+                                        <p><?php echo $total; ?>円</p>
+                                        <?php if($user_login == true) echo "<span style='color:red'>会員特別価格(30%OFF)</span>" ?>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
                         <div class="cart-btn">
-                            <button type="button" class="btn btn-blue" onclick="location.href='pay.php'" <?php if(empty($products)) echo 'disabled="disabled"'; ?>>購入手続きへ</button>
+                            <?php if($user_login==true): ?>
+                                <!-- ログインしてる -->
+                                <button type="button" class="btn btn-blue" onclick="location.href='pay.php'" <?php if(empty($products)) echo 'disabled="disabled"'; ?>>購入手続きへ</button>
+                            <?php else: ?>
+                                <!-- ログインしていない -->
+                                <button type="button" class="btn btn-blue" onclick="location.href='login.php'" <?php if(empty($products)) echo 'disabled="disabled"'; ?>>ログインして購入手続きへ</button>
+                                <button type="button" class="btn btn-blue" onclick="location.href='pay.php'" <?php if(empty($products)) echo 'disabled="disabled"'; ?>>ログインぜずに購入手続きへ</button>
+                            <?php endif; ?>
                             <button type="button" class="btn btn-gray" onclick="location.href='shop.php'">お買い物を続ける</button>
                         </div>
                     </div>

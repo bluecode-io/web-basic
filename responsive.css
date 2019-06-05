@@ -163,56 +163,55 @@
     .item-form input {
         margin-bottom: 5px;
     }
+    /* cart.html */
+    .cart-table {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .cart-table thead {
+        display: none;
+    }
+
+    .cart-table th,
+    .cart-table td {
+        border: none;
+        padding: 5px 10px;
+        text-align: left;
+    }
+
+    .cart-table td form {
+        text-align: right;
+        width: 90%;
+    }
+    .cart-table tbody th {
+        display: block;
+        text-align: center;
+    }
+
+    .cart-table tbody td::before {
+        content: attr(label);
+        float: left;
+        clear:both;
+        font-weight:bold;
+    }
+
+    .cart-table tr {
+        border: 1px solid #ebeced;
+    }
+
+    .cart-btn .btn{
+        margin-top: 20px;
+    }
+
+    .total td{
+        font-weight: bold;
+        text-align: center;
+        padding: 5px 0;
+    }
+    /* pay */
+    .sm-form {
+        width: 20%;
+    }
 }
 
- /* cart.html */
- .cart-table {
-    width: 100%;
-    margin: 0 auto;
-}
-
-.cart-table thead {
-    display: none;
-}
-
-.cart-table th,
-.cart-table td {
-    border: none;
-    padding: 5px 10px;
-    text-align: left;
-}
-
-.cart-table td form {
-    text-align: right;
-    width: 90%;
-}
-.cart-table tbody th {
-    display: block;
-    text-align: center;
-}
-
-.cart-table tbody td::before {
-    content: attr(label);
-    float: left;
-    clear:both;
-    font-weight:bold;
-}
-
-.cart-table tr {
-    border: 1px solid #ebeced;
-}
-
-.cart-btn .btn{
-    margin-top: 20px;
-}
-
-.total td{
-    font-weight: bold;
-    text-align: center;
-    padding: 5px 0;
-}
-
-/* pay */
-.sm-form {
-    width: 20%;
-}

@@ -1,4 +1,7 @@
 <?php
+    session_start();
+    $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login']:false;
+
 
     //PHPMailerソースを読み込む
     require 'PHPMailer/src/PHPMailer.php';
@@ -151,7 +154,11 @@
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
@@ -167,7 +174,11 @@
                 <nav class="pc-menu menu-right menu">
                     <ul>
                         <li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>

@@ -1,3 +1,34 @@
+<?php
+    session_start();
+    $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login'] : false;
+    if($user_login == true){
+
+        //sessionからuser_id取得
+        $user_id = $_SESSION['user_id']; 
+        //DB接続
+        try{
+            $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+        }catch(PDOException $e){
+            var_dump($e->getMessage());
+            exit;
+        }
+        //user_idでSELECT文作成
+        $stmt = $dbh->prepare("SELECT * FROM users WHERE id=:id");
+        $stmt->bindParam(":id",$user_id);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        //データ取得
+        $name = $users[0]['name'];
+        $email = $users[0]['email'];
+        $address = $users[0]['address'];
+
+    }else{
+        //ログインしてない
+        $name = '';
+        $email = '';
+        $address = '';
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -61,7 +92,11 @@
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
@@ -77,7 +112,11 @@
                 <nav class="pc-menu menu-right menu">
                     <ul>
                         <li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>
@@ -102,10 +141,12 @@
                         <div class="form-group">
                             <p class="form-title">お名前 *</p>
                             <input type="text" name="name" required>
+                            <input type="text" name="name" required value="<?php echo $name; ?>">
                         </div>
                         <div class="form-group">
                             <p class="form-title">Email *</p>
                             <input type="email" name="email" required>
+                            <input type="email" name="email" required value="<?php echo $email; ?>">
                         </div>
                         <div class="form-group">
                             <p class="form-title">電話番号 *</p>
@@ -117,6 +158,7 @@
                             <input type="text" name="postcode" required>
                             <label>住所</label><br>
                             <input type="text" name="address" required>
+                            <input type="text" name="address" required value="<?php echo $address; ?>">
                         </div>
                         <button type="submit" class="btn btn-blue">決済情報を入力する</button>
                     </form>

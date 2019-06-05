@@ -1,4 +1,7 @@
 <?php
+    session_start();
+    $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login']:false;
+
 
     require_once './vendor/payjp/payjp-php/init.php';
     \Payjp\Payjp::setApiKey("sk_test_21a7xxxxxxxxxxxxxxxxxxxx");
@@ -13,11 +16,7 @@
 
     session_start();
     $products = isset($_SESSION['products'])? $_SESSION['products']:[];
-    $total = 0;
-    foreach($products as $key => $product){
-       $subtotal = (int)$product['price']*(int)$product['count'];
-       $total += $subtotal;
-    }
+    $total = isset($_SESSION['total_price'])? $_SESSION['total_price']:0;
 
     $currency = 'jpy';
 
@@ -65,6 +64,7 @@
         $stmt2->execute();
     }
     unset($_SESSION['products']);
+    unset($_SESSION['total_price']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -129,7 +129,11 @@
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
 
@@ -145,7 +149,11 @@
                 <nav class="pc-menu menu-right menu">
                     <ul>
                         <li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
-                        <li><a href="register.html">会員登録</a></li>
+                        <?php if($user_login==true): ?>
+                            <li><a href="logout.php">ログアウト</a></li>
+                        <?php else: ?>
+                            <li><a href="login.php">ログイン</a></li>
+                        <?php endif; ?>
                     </ul>
                 </nav>
             </div>

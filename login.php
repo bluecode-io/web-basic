@@ -1,31 +1,6 @@
 <?php
     session_start();
     $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login']:false;
-
-    // 値の受け取り
-    $name = isset($_POST['name'])? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):'';
-    $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
-    $password = isset($_POST['password'])? htmlspecialchars($_POST['password'],ENT_QUOTES,'utf-8'):'';
-    $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
-    $dm = isset($_POST['dm'])? htmlspecialchars($_POST['dm'],ENT_QUOTES,'utf-8'):'';
-    $dm_flag = ($dm=='受信する')? 1:0;
-
-    //DB接続
-    try{
-        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
-    }catch(PDOException $e){
-        var_dump($e->getMessage());
-        exit;
-    }
-    
-    $stmt = $dbh->prepare("INSERT INTO users(name,email,password,address,dm,created_at,updated_at) VALUES(:name,:email,:password,:address,:dm,now(),now())");
-    $stmt->bindParam(":name",$name);
-    $stmt->bindParam(":email",$email);
-    $stmt->bindParam(":password",$password);
-    $stmt->bindParam(":address",$address);
-    $stmt->bindParam(":dm",$dm_flag);
-    $stmt->execute();
-     
 ?>
 <!DOCTYPE html>
 <html>
@@ -40,12 +15,12 @@
 
             gtag('config', 'UA-13xxxxxxxxx');
         </script>
-
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>登録内容確認｜SQUARE, inc.</title>
+        <title>ログイン｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -119,28 +94,46 @@
                 </nav>
             </div>
         </header> 
-       <main>
-            <!-- contact　conf -->
-            <div class="wrapper last-wrapper">
+        <main>
+            <!-- register -->
+            <div class="wrapper last-wrapper register-wrapper">
                 <div class="container">
-                    <div class="thanks">
-                    <h3>登録完了しました。</h3>
-                    <p>ご登録ありがとうございました。</p>
-                    <button type="button" class="btn btn-gray" onclick="location.href='./index.php'">トップページに戻る</button>
+                    <div class="login">
+                        <div class="wrapper-title">
+                            <h4>ログイン</h4>
+                        </div>
+                        <form class="login-form" action="user_check.php" method="POST">
+                            <div class="form-group">
+                                <p>メールアドレス</p>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <p>パスワード</p>
+                                <input type="password" name="password" required>
+                            </div>
+                            <button type="submit" class="btn btn-gray">ログイン</button>
+                        </form>
+                    </div>
+                    <div class="register">
+                        <div class="wrapper-title">
+                            <h4>新規登録</h4>
+                            <p>登録がお済みでない方はこちらから新規登録してください。</p>
+                        </div>
+                        <button type="button" class="btn btn-submit" onclick="location.href='register.php'">新規登録</button>
                     </div>
                 </div>
             </div>
-            <!-- end contact -->
-       </main>
-       <footer>
+        </main>
+        <footer>
             <div class="container">
                 <p>Copyright @ 2018 SQUARE, inc.</p>
             </div>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
+
             $(function(){
-  　　　    // ハンバーガーメニューの動作
+                // ハンバーガーメニューの動作
                 $('.toggle').click(function(){
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
@@ -151,3 +144,4 @@
         </script>
     </body>
 </html>
+
