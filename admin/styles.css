@@ -313,3 +313,8 @@ footer {
     border-radius: 5px;
     color: #fff;
 }
+
+/* products */
+.edit-form .imgform {
+    border: none;
+}

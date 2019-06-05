@@ -1,5 +1,16 @@
 <?php
 
+    try{
+        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+    }catch(PDOException $e){
+        var_dump($e->getMessage());
+        exit;
+    }
+        
+    $stmt = $dbh->prepare("SELECT * FROM products");
+    $stmt->execute();
+    $product_list = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
     $name = (isset($_POST['name']))? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8') : '';
     $price = (isset($_POST['price']))? htmlspecialchars($_POST['price'], ENT_QUOTES, 'utf-8') : '';
     $count = (isset($_POST['count']))? htmlspecialchars($_POST['count'], ENT_QUOTES, 'utf-8') : '';
@@ -130,63 +141,26 @@
                     </div>
                     <div class="itemlist">
                         <ul>
+                            <?php foreach($product_list as $product): ?>
                             <li>
-                                <img src="products/banana.jpg" >
+                                <img src="admin/products/<?php echo $product['img_path']; ?>" >
                                 <div class="item-body">
-                                    <h5>バナナ</h5>
-                                    <p>¥500</p>
+                                    <h5><?php echo $product['product_name']; ?></h5>
+                                    <p><?php echo $product['text']; ?></p>
+                                    <p>¥<?php echo $product['price']; ?></p>
                                     <form action="shop.php" method="POST" class="item-form">
-                                        <input type="hidden" name="name" value="バナナ">
-                                        <input type="hidden" name="price" value="500">
+                                        <input type="hidden" name="name" value="<?php echo $product['product_name']; ?>">
+                                        <input type="hidden" name="price" value="<?php echo $product['price']; ?>">
                                         <input type="text" value="1" name="count">
                                         <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
                                     </form>
                                 </div><!-- end item-body--> 
                             </li>
-                            <li>
-                                <img src="products/cucumber.jpg" >
-                                <div class="item-body">
-                                    <h5>きゅうり</h5>
-                                    <p>¥100</p>
-                                    <form action="shop.php" method="POST" class="item-form">
-                                        <input type="hidden" name="name" value="きゅうり">
-                                        <input type="hidden" name="price" value="100">
-                                        <input type="text" value="1" name="count">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </form>
-                                </div><!-- end item-body--> 
-                            </li>
-                            <li>
-                                <img src="products/onion.jpg" >
-                                <div class="item-body">
-                                    <h5>玉ねぎ</h5>
-                                    <p>¥200</p>
-                                    <form action="shop.php" method="POST" class="item-form">
-                                        <input type="hidden" name="name" value="玉ねぎ">
-                                        <input type="hidden" name="price" value="200">
-                                        <input type="text" value="1" name="count">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </form>
-                                </div><!-- end item-body--> 
-                            </li>
-                            <li>
-                                <img src="products/tomato.jpg" >
-                                <div class="item-body">
-                                    <h5>トマト</h5>
-                                    <p>¥150</p>
-                                    <form action="shop.php" method="POST" class="item-form">
-                                        <input type="hidden" name="name" value="トマト">
-                                        <input type="hidden" name="price" value="150">
-                                        <input type="text" value="1" name="count">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </form>    
-                                </div><!-- end item-body--> 
-                            </li>
+                            <?php endforeach; ?>
                         </ul>
                     </div><!-- end itemlist -->
                 </div>
             </div>
-
         </main>
         <footer>
             <div class="container">

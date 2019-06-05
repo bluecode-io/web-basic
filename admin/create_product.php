@@ -1,21 +1,21 @@
 <?php
     session_start();
+
     if($_SESSION['admin_login'] == false){
         header("Location:./index.html");
         exit;
     }
+
 ?>
-<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>ダッシュボード</title>
+        <title>商品登録</title>
 
         <link rel="icon" href="favicon.ico">
-        <!-- fontawesome -->
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
         <!-- css -->
@@ -37,26 +37,27 @@
             <div class="wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>ダッシュボード</h3>
+                        <h3>新規作成</h3>
                     </div>
-                    <div class="boxs">
-                        <a href="news.php" class="box">
-                            <i class="far fa-newspaper icon"></i><!-- fontawesome利用部分 -->
-                            <p>記事管理</p>
-                        </a>
-                        <a href="users.php" class="box">
-                            <i class="fas fa-users icon"></i>
-                            <p>会員管理</p>
-                        </a>
-                        <a href="orders.php" class="box">
-                            <i class="fas fa-ambulance icon"></i>
-                            <p>受注管理</p>
-                        </a>
-                        <a href="products.php" class="box">
-                            <i class="fas fa-store-alt icon"></i>
-                            <p>商品管理</p>
-                        </a>
-                    </div>
+                    <form class="edit-form" method="POST" action="store_product.php" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <p>商品名</p>
+                            <input type="text" name="product_name" required>
+                        </div>
+                        <div class="form-group">
+                            <p>説明文</p>
+                            <input type="text" name="text" maxlength="8">
+                        </div>
+                        <div class="form-group">
+                            <p>単価</p>
+                            <input type="text" name="price" required>
+                        </div>
+                        <div class="form-group">
+                            <p>アイテム画像</p>
+                            <input type="file" name="img" class="imgform">
+                        </div>
+                        <button type="submit" class="btn btn-blue">登録</button>
+                    </form>
                 </div>
             </div>
         </main>
