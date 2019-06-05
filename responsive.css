@@ -213,5 +213,16 @@
     .sm-form {
         width: 20%;
     }
+
+    /* calendar.php */
+    .calendar-table th,
+    .calendar-table td{
+        display: table-cell;
+        padding: 5px;
+    }
+
+    .day {
+        height: 50px;
+    }
 }
 

@@ -1,5 +1,6 @@
 {
     "require": {
-        "payjp/payjp-php": "^1.0"
+        "payjp/payjp-php": "^1.0",
+        "nesbot/carbon": "^2.19"
     }
 }

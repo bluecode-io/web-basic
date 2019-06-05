@@ -452,3 +452,44 @@ footer {
 .sm-form {
     width: 10%;
 }
+
+/* calendar.php */
+
+.calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+.calendar-table th,
+.calendar-table td{
+    border: 1px solid #ebeced;
+    padding: 10px;
+}
+
+.calendar-table .header {
+    background-color: #4c586f;
+    color: #fff;
+    font-size: 12px;
+    text-align: left;
+}
+
+.month {
+    text-align: center;
+    width: 100%;
+}
+
+.month a {
+    color: #4a80d6;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+.day {
+    height: 100px;
+}

@@ -77,6 +77,7 @@
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
+                        <li><a href="calendar.php">無料ご相談会</a></li>
                         <?php if($user_login==true): ?>
                             <li><a href="logout.php">ログアウト</a></li>
                         <?php else: ?>
@@ -92,6 +93,7 @@
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
+                        <li><a href="calendar.php">無料ご相談会</a></li>
                     </ul>
                 </nav>
                 <nav class="pc-menu menu-right menu">
