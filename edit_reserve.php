@@ -10,10 +10,8 @@
     //user_id取得
     $user_id = $_SESSION['user_id'];
 
-    $y = (isset($_GET['y']))? htmlspecialchars($_GET['y'], ENT_QUOTES, 'utf-8') : '';
-    $m = (isset($_GET['m']))? htmlspecialchars($_GET['m'], ENT_QUOTES, 'utf-8') : '';   
-    $d = (isset($_GET['d']))? htmlspecialchars($_GET['d'], ENT_QUOTES, 'utf-8') : '';   
-    
+    $reservation_id = (isset($_GET['reservation_id']))? htmlspecialchars($_GET['reservation_id'], ENT_QUOTES, 'utf-8') : '';
+
     //DB接続
     try{
         $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
@@ -22,10 +20,10 @@
         exit;
     }
     
-    $stmt = $dbh->prepare("SELECT * from users WHERE id=:id");
-    $stmt->bindParam(":id",$user_id);
+    $stmt = $dbh->prepare("SELECT * from reservations WHERE id=:id");
+    $stmt->bindParam(":id",$reservation_id);
     $stmt->execute();
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    $reservations = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -140,29 +138,33 @@
                         <h3>RESERVATION</h3>
                         <p>ご予約</p>
                     </div>
-                    <form class="reserve-form" method="POST" action="reserved.php">
+                    <form class="reserve-form" method="POST" action="update_reserve.php">
+                        <input type="hidden" name="reservation_id" value="<?php echo $reservation_id; ?>">
                         <div class="form-group">
                             <label for="reserveDate">予約日</label>
-                            <input type="text" class="form-control" id="reserveDate" value="<?php echo $y;?>年<?php echo $m; ?>月<?php echo $d; ?>日" disabled="disabled">
-                            <input type="hidden" name="reserve_date" value="<?php echo $y; ?>-<?php echo $m; ?>-<?php echo $d; ?>">
+                            <input type="text" class="form-control" id="reserveDate" name="reserve_date" value="<?php echo $reservations[0]['reserve_date']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="name">氏名 *</label>
-                            <input type="text" class="form-control" name="name" required value="<?php echo $users[0]['name']; ?>">
+                            <input type="text" class="form-control" name="name" required value="<?php echo $reservations[0]['name']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="tel">電話番号 *</label>
-                            <input type="text" class="form-control" name="tel" required>
+                            <input type="text" class="form-control" name="tel" required value="<?php echo $reservations[0]['tel']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="email">メールアドレス *</label>
-                            <input type="text" class="form-control" name="email" required value="<?php echo $users[0]['email']; ?>">
+                            <input type="text" class="form-control" name="email" required value="<?php echo $reservations[0]['email']; ?>">
                         </div>
                         <div class="form-group">
                             <label for="email">来訪人数 *</label>
-                            <input type="text" class="form-control" name="number" required>
+                            <input type="text" class="form-control" name="number" required value="<?php echo $reservations[0]['number']; ?>">
                         </div>
-                        <button type="submit" class="btn btn-submit">予約する</button>
+                        <button type="submit" class="btn btn-submit">予約変更する</button>
+                    </form>
+                    <form method="POST" action="delete_reserve.php">
+                        <input type="hidden" name="reservation_id" value="<?php echo $reservation_id; ?>">
+                        <button type="submit" class="btn btn-red">キャンセルする</button>
                     </form>
                 </div>
             </div>

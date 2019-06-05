@@ -13,8 +13,13 @@
         $dt = Carbon::createFromDate();
     }
     
-    function renderCalendar($dt)
+    function renderCalendar($dt,$user_login)
     {   
+        if($user_login==true){
+            $user_id = $_SESSION['user_id'];
+        }else{
+            $user_id = '';
+        }
         //DB接続
         try{
             $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
@@ -90,18 +95,39 @@
 
                 //ループの日と今日を比較
                 if ($comp->eq($comp_now)) {
-                        //同じなので緑色の背景にする
+                    //同じなので緑色の背景にする
+                    //ログイン判断
+                    if($user_login==true){
                         $calendar .= '<td class="day" style="background-color:#008b8b;"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
-                }else{
+                    }else{
+                        $calendar .= '<td class="day" style="background-color:#008b8b;">'.$dt->day;
+                    }
+
+                } else {
                     switch ($dt->format('N')) {
                         case 6:
-                        $calendar .= '<td class="day" style="background-color:#b0e0e6"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
-                            break;
-                        case 7:
-                        $calendar .= '<td class="day" style="background-color:#f08080"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
-                            break;
-                        default:
-                        $calendar .= '<td class="day" ><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                        //ログイン判断
+                        if ($user_login==true) {
+                            $calendar .= '<td class="day" style="background-color:#b0e0e6"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                        }else{
+                            $calendar .= '<td class="day" style="background-color:#b0e0e6">'.$dt->day;
+                        }
+                        break;
+                    case 7:
+                        //ログイン判断
+                        if($user_login==true){
+                            $calendar .= '<td class="day" style="background-color:#f08080"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                        }else{
+                            $calendar .= '<td class="day" style="background-color:#f08080">'.$dt->day;
+                        }
+                        break;
+                    default:
+                        //ログイン判断
+                        if($user_login==true){
+                            $calendar .= '<td class="day" ><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                        }else{
+                            $calendar .= '<td class="day" >'.$dt->day;
+                        }
                             break;
                     }
                 }
@@ -110,6 +136,11 @@
                 $reservations= $stmt->fetchAll(PDO::FETCH_ASSOC);
                 foreach($reservations as $reservation)
                 {
+                    if($reservation['user_id']==$user_id){
+                        $calendar .= '<br><a href="edit_reserve.php?reservation_id='.$reservation['id'].'">予約あり</a>';
+                    }else{
+                        $calendar .= '<br>予約あり</a>';
+                    }
                     $calendar .= '<br>予約あり</a>';
                 }
                 $calendar .= '</td>';
@@ -233,7 +264,7 @@
                     <div class="wrapper-title">
                         <h3>無料ご相談会予約</h3>
                     </div>
-                    <?php echo renderCalendar($dt); ?>
+                    <?php echo renderCalendar($dt,$user_login); ?>
                 </div>
             </div>
         </main>

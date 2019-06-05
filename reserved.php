@@ -3,6 +3,13 @@
     session_start();
     $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login']:false;
     
+    //ログインしてなかったらカレンダーにリダイレクト
+    if($user_login==false){
+        header('location:./calendar.php');
+    }
+    //user_id取得
+    $user_id = $_SESSION['user_id'];
+
     $reserve_date = isset($_POST['reserve_date'])? htmlspecialchars($_POST['reserve_date'], ENT_QUOTES, 'utf-8'):'';
     $name = isset($_POST['name'])? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8'):'';
     $email = isset($_POST['email'])? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8'):'';
@@ -24,7 +31,8 @@
             email,
             number,
             created_at,
-            updated_at
+            updated_at,
+            user_id
         )values(
             :reserve_date,
             :name,
@@ -32,7 +40,8 @@
             :email,
             :number,
             now(),
-            now()
+            now(),
+            :user_id
         )");
     
     $stmt->bindParam(":reserve_date",$reserve_date);
@@ -40,6 +49,7 @@
     $stmt->bindParam(":tel",$tel);
     $stmt->bindParam(":email",$email);
     $stmt->bindParam(":number",$number);
+    $stmt->bindParam(":user_id",$user_id);
     $stmt->execute();
 ?>
 

@@ -2,7 +2,7 @@
 
     session_start();
     $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login']:false;
-
+    
     //ログインしてなかったらカレンダーにリダイレクト
     if($user_login==false){
         header('location:./calendar.php');
@@ -10,10 +10,7 @@
     //user_id取得
     $user_id = $_SESSION['user_id'];
 
-    $y = (isset($_GET['y']))? htmlspecialchars($_GET['y'], ENT_QUOTES, 'utf-8') : '';
-    $m = (isset($_GET['m']))? htmlspecialchars($_GET['m'], ENT_QUOTES, 'utf-8') : '';   
-    $d = (isset($_GET['d']))? htmlspecialchars($_GET['d'], ENT_QUOTES, 'utf-8') : '';   
-    
+
     //DB接続
     try{
         $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
@@ -21,11 +18,11 @@
         var_dump($e->getMessage());
         exit;
     }
-    
-    $stmt = $dbh->prepare("SELECT * from users WHERE id=:id");
-    $stmt->bindParam(":id",$user_id);
+
+    $stmt = $dbh->prepare("DELETE FROM reservations WHERE id=:id");
+    $stmt->bindParam(":id",$reservation_id);
     $stmt->execute();
-    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
 ?>
 
 <!DOCTYPE html>
@@ -46,7 +43,8 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>RESERVATION｜SQUARE, inc.</title>
+        <title>ご予約キャンセル｜SQUARE, inc.</title>
+
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -130,40 +128,21 @@
                     <ul>
                         <li><a href="index.php">TOP</a></li>
                         <li><a href="calendar.php">無料ご相談会予約</a></li>
-                        <li>ご予約</li>
+                        <li>ご予約キャンセル</li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>RESERVATION</h3>
-                        <p>ご予約</p>
+                        <h3>ご予約キャンセル</h3>
                     </div>
-                    <form class="reserve-form" method="POST" action="reserved.php">
-                        <div class="form-group">
-                            <label for="reserveDate">予約日</label>
-                            <input type="text" class="form-control" id="reserveDate" value="<?php echo $y;?>年<?php echo $m; ?>月<?php echo $d; ?>日" disabled="disabled">
-                            <input type="hidden" name="reserve_date" value="<?php echo $y; ?>-<?php echo $m; ?>-<?php echo $d; ?>">
+                    <div class="wrapper-body">
+                        <div class="thanks">
+                            <h4>ご予約をキャンセルしました。</h4>
                         </div>
-                        <div class="form-group">
-                            <label for="name">氏名 *</label>
-                            <input type="text" class="form-control" name="name" required value="<?php echo $users[0]['name']; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="tel">電話番号 *</label>
-                            <input type="text" class="form-control" name="tel" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="email">メールアドレス *</label>
-                            <input type="text" class="form-control" name="email" required value="<?php echo $users[0]['email']; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">来訪人数 *</label>
-                            <input type="text" class="form-control" name="number" required>
-                        </div>
-                        <button type="submit" class="btn btn-submit">予約する</button>
-                    </form>
+                        <button type="button" class="btn btn-gray" onclick="location.href='./index.php'">トップページに戻る</button>
+                    </div>
                 </div>
             </div>
         </main>
