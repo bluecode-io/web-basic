@@ -134,6 +134,11 @@ header {
         padding-right: 15px;
     }
 
+    .menu-right a{
+        float: right;
+        padding-right: 15px;
+    }
+
 /* top-img */
 .top-img {
     height: 600px;
@@ -301,4 +306,45 @@ footer {
 .sns {
     width: 50%;
     margin: 0 auto;
+}
+
+/* login.html */
+.login,
+.register {
+    width: 55%;
+    margin: 0 auto;
+    padding: 50px 0;
+}
+
+.login {
+    background-color: #ebeced;
+    border:1px solid #ebeced;
+}
+
+.register {
+    border:1px solid #ebeced;
+    text-align: center;
+}
+
+/* register.html */
+.checkbox {
+    width: auto;
+}
+
+/* regi_conf.php */
+.conf-form{
+    background-color: #ebeced;
+    padding: 30px;
+}
+
+/* regi_end.php */
+.thanks{
+    background-color: #ebeced;
+    text-align: center;
+    padding: 50px 0;
+    justify-content: center;
+}
+
+.thanks h4{
+    margin-bottom: 10px;
 }

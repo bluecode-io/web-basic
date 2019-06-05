@@ -79,6 +79,7 @@
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
+                        <li><a href="register.html">会員登録</a></li>
                     </ul>
                 </nav>
 
@@ -90,6 +91,9 @@
                         <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
+                </nav>
+                <nav class="pc-menu menu-right menu">
+                    <a href="register.html">会員登録</a>
                 </nav>
             </div>
         </header> 

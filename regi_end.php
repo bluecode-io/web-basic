@@ -1,8 +1,28 @@
 <?php
-    // 値の受け取り（エスケープ・空っぽ処理付き）
-    $name = isset($_POST['name'])? htmlspecialchars($_POST['name'], ENT_QUOTES, 'utf-8'):'';
-    $email = isset($_POST['email'])? htmlspecialchars($_POST['email'], ENT_QUOTES, 'utf-8'):'';
-    $text = isset($_POST['text'])? htmlspecialchars($_POST['text'], ENT_QUOTES, 'utf-8'):'';
+    // 値の受け取り
+    $name = isset($_POST['name'])? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):'';
+    $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
+    $password = isset($_POST['password'])? htmlspecialchars($_POST['password'],ENT_QUOTES,'utf-8'):'';
+    $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
+    $dm = isset($_POST['dm'])? htmlspecialchars($_POST['dm'],ENT_QUOTES,'utf-8'):'';
+    $dm_flag = ($dm=='受信する')? 1:0;
+
+    //DB接続
+    try{
+        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+    }catch(PDOException $e){
+        var_dump($e->getMessage());
+        exit;
+    }
+    
+    $stmt = $dbh->prepare("INSERT INTO users(name,email,password,address,dm,created_at,updated_at) VALUES(:name,:email,:password,:address,:dm,now(),now())");
+    $stmt->bindParam(":name",$name);
+    $stmt->bindParam(":email",$email);
+    $stmt->bindParam(":password",$password);
+    $stmt->bindParam(":address",$address);
+    $stmt->bindParam(":dm",$dm_flag);
+    $stmt->execute();
+     
 ?>
 <!DOCTYPE html>
 <html>
@@ -22,7 +42,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>確認画面｜SQUARE, inc.</title>
+        <title>登録内容確認｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -78,51 +98,20 @@
                 </nav>
             </div>
         </header> 
-        <main>
-            <!-- contact conf -->
+       <main>
+            <!-- contact　conf -->
             <div class="wrapper last-wrapper">
                 <div class="container">
-                    <div class="wrapper-title">
-                        <h3>CONFIRM</h3>
-                        <p>お問い合わせ内容確認</p>
+                    <div class="thanks">
+                    <h3>登録完了しました。</h3>
+                    <p>ご登録ありがとうございました。</p>
+                    <button type="button" class="btn btn-gray" onclick="location.href='./index.php'">トップページに戻る</button>
                     </div>
-                    <form method="POST" action="./send.php" class="conf-form">
-                        <div class="form-group">
-                            <p>お名前 *</p>
-                            <p><?php echo $name; ?></p>
-                            <input type="hidden" name="name" value="<?php echo $name; ?>">
-                            <?php if($name==''):?>
-                                <p class="error">名前が入力されていません</p>
-                            <?php endif; ?>
-                        </div>
-                        <div class="form-group">
-                            <p>Email *</p>
-                            <p><?php echo $email; ?></p>
-                            <input type="hidden" name="email" value="<?php echo $email; ?>">
-                            <?php if($email==''):?>
-                                <p class="error">メールアドレスが入力されていません</p>
-                            <?php endif; ?>
-                        </div>
-                        <div class="form-group">
-                            <p>お問合せ内容 *</p>
-                            <p><?php echo $text; ?></p>
-                            <input type="hidden" name="text" value="<?php echo $text; ?>">
-                            <?php if($text==''):?>
-                                <p class="error">お問い合わせ内容が入力されていません</p>
-                            <?php endif; ?>
-                        </div>
-                        <?php if($name!=''&&$email!=''&&$text!=''): ?>
-                            <p>この内容で送信してよろしいですか？</p>
-                            <button type="submit" class="btn btn-submit">送信する</button>
-                        <?php else: ?>
-                            <button class="btn btn-return">戻る</button>
-                        <?php endif;?>
-                    </form>                    
                 </div>
             </div>
-            <!-- end contact conf -->
+            <!-- end contact -->
        </main>
-        <footer>
+       <footer>
             <div class="container">
                 <p>Copyright @ 2018 SQUARE, inc.</p>
             </div>
@@ -130,17 +119,14 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function(){
-                // ハンバーガーメニューの動作
+  　　　    // ハンバーガーメニューの動作
                 $('.toggle').click(function(){
-                            $("header").toggleClass('open');
+                    $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
-                });    
-
-                $(".btn-return").click(function(){
-                    window.history.back(-1);
-                    return false;
                 });
-            });        
+
+            });
+
         </script>
     </body>
 </html>

@@ -130,4 +130,16 @@
     .sns {
         width: 80%;
     }
+
+    /* login.html */
+    .login,
+    .register {
+        width: 100%;
+    }
+
+        .login-form,
+        .regi-form {
+            width: 90%;
+            margin: 0 auto;
+        }
 }
