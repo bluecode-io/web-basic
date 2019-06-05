@@ -104,6 +104,7 @@
                     <div class="wrapper-title">
                         <h3>会員管理</h3>
                     </div>
+                    <button type="button" class="btn btn-blue" onclick="location.href='./create_dm.php'">メルマガ配信</button>
                     <button type="button" class="btn btn-gray" onclick="location.href='download.php'">CSV出力</button>
                     <form class="serch" action="users.php" method="GET">
                         <input type="text" name="name" placeholder="名前検索">
