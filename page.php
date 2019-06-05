@@ -1,3 +1,25 @@
+<?php
+
+    $id = isset($_GET['id'])? htmlspecialchars($_GET['id'], ENT_QUOTES, 'utf-8'):'';
+
+    if($id==''){
+        header('location:./index.php');
+    }
+
+    //DB接続
+    try{
+        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+    }catch(PDOException $e){
+        var_dump($e->getMessage());
+        exit;
+    }
+
+    $stmt = $dbh->prepare("SELECT * FROM news WHERE id=:id");
+    $stmt->bindParam(":id",$id);
+    $stmt->execute();
+    $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -16,7 +38,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>記事タイトル | SQUARE, inc.</title>
+        <title><?php echo $news[0]['title']; ?>｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -38,7 +60,7 @@
         <header>
             <div class="container">
                 <div class="header-logo">
-                    <h1><a href="index.html"><img src="img/square_logo.png" id="logo"></a></h1>
+                    <h1><a href="index.php"><img src="img/square_logo.png" id="logo"></a></h1>
                 </div>
 
                 <!-- ハンバーガーメニューボタン -->
@@ -52,20 +74,20 @@
 
                 <nav class="sp-menu menu">
                     <ul>
-                        <li><a href="index.html#service">サービス</a></li>
-                        <li><a href="index.html#news">お知らせ</a></li>
-                        <li><a href="index.html#about">会社概要</a></li>
-                        <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="index.php#news">お知らせ</a></li>
+                        <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
 
                 <nav class="pc-menu menu-left menu">
                     <ul>
-                        <li><a href="index.html#service">サービス</a></li>
-                        <li><a href="index.html#news">お知らせ</a></li>
-                        <li><a href="index.html#about">会社概要</a></li>
-                        <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="index.php#news">お知らせ</a></li>
+                        <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
@@ -75,8 +97,8 @@
             <div class="breadcrumbs">
                 <div class="container">
                     <ul>
-                        <li><a href="index.html">TOP</a></li>
-                        <li>ホームページをリニューアルしました</li>
+                        <li><a href="index.php">TOP</a></li>
+                        <li><?php echo $news[0]['title']; ?></li>
                     </ul>
                 </div>
             </div>
@@ -84,14 +106,11 @@
                 <div class="container">
                     <article>
                         <div class="page-title">
-                            <h1>ここに記事タイトルが入ります。</h1>
-                            <p>2019/04/01</p>
+                            <h1><?php echo $news[0]['title']; ?></h1>
+                            <p><?php echo $news[0]['updated_at']; ?></p>
                         </div>
                         <div class="page-text">
-                            <p>ここに記事本文が入ります。</p>
-                            <p>こんにちは。株式会社SQUAREです。ここにお知らせを書いていきます。</p>
-                            <br>
-                            <p>より見やすく、より使いやすいホームページとなるよう、運営を進めてまいりますので、引き続きご愛顧のほどよろしくお願いいたします。</p>
+                            <?php echo $news[0]['content']; ?>
                         </div>
                     </article>
                 </div>

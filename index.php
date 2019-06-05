@@ -1,3 +1,17 @@
+<?php
+
+    try{
+        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+    }catch(PDOException $e){
+        var_dump($e->getMessage());
+        exit;
+    }
+
+    $stmt = $dbh->prepare("SELECT * FROM news ORDER BY id DESC LIMIT 5");
+    $stmt->execute();
+    $news = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -35,7 +49,7 @@
         <header>
             <div class="container">
                 <div class="header-logo">
-                    <h1><a href="index.html"><img src="img/square_logo.png" id="logo"></a></h1>
+                    <h1><a href="index.php"><img src="img/square_logo.png" id="logo"></a></h1>
                 </div>
 
                 <!-- ハンバーガーメニューボタン -->
@@ -49,20 +63,20 @@
 
                 <nav class="sp-menu menu">
                     <ul>
-                        <li><a href="index.html#service">サービス</a></li>
-                        <li><a href="index.html#news">お知らせ</a></li>
-                        <li><a href="index.html#about">会社概要</a></li>
-                        <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="index.php#news">お知らせ</a></li>
+                        <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
 
                 <nav class="pc-menu menu-left menu">
                     <ul>
-                        <li><a href="index.html#service">サービス</a></li>
-                        <li><a href="index.html#news">お知らせ</a></li>
-                        <li><a href="index.html#about">会社概要</a></li>
-                        <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="index.php#news">お知らせ</a></li>
+                        <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
@@ -90,14 +104,11 @@
                         <p>お知らせ</p>
                     </div>
                     <div class="news-list">
+                        <?php foreach($news as $new): ?>
                         <ul>
-                            <li>
-                                <a href="page.html">2019/04/01 ホームページをリニューアルしました。</a>
-                            </li>
-                            <li>
-                                <a href="page.html">2018/12/24 年末年始の営業時間について</a>
-                            </li>
+                            <li><a href="page.php?id=<?php echo $new['id']; ?>"><?php echo $new['updated_at']; ?> <?php echo $new['title']; ?></a></li>
                         </ul>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>

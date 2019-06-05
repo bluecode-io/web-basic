@@ -125,7 +125,7 @@
         <header>
             <div class="container">
                 <div class="header-logo">
-                    <h1><a href="index.html"><img src="img/square_logo.png" id="logo"></a></h1>
+                    <h1><a href="index.php"><img src="img/square_logo.png" id="logo"></a></h1>
                 </div>
 
                 <!-- ハンバーガーメニューボタン -->
@@ -139,20 +139,20 @@
 
                 <nav class="sp-menu menu">
                     <ul>
-                        <li><a href="index.html#service">サービス</a></li>
-                        <li><a href="index.html#news">お知らせ</a></li>
-                        <li><a href="index.html#about">会社概要</a></li>
-                        <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="index.php#news">お知らせ</a></li>
+                        <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
 
                 <nav class="pc-menu menu-left menu">
                     <ul>
-                        <li><a href="index.html#service">サービス</a></li>
-                        <li><a href="index.html#news">お知らせ</a></li>
-                        <li><a href="index.html#about">会社概要</a></li>
-                        <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="index.php#news">お知らせ</a></li>
+                        <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
@@ -170,7 +170,7 @@
                         <div class="thanks">
                             <h4><?php echo $result; ?></h4>
                         </div>
-                        <button type="button" class="btn btn-gray" onclick="location.href='./index.html'">トップページに戻る</button>
+                        <button type="button" class="btn btn-gray" onclick="location.href='./index.php'">トップページに戻る</button>
                     </div>
                 </div>
             </div>
