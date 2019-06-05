@@ -1,3 +1,23 @@
+<?php
+
+    $delete_name = (isset($_POST['delete_name']))? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
+
+    session_start();
+
+    if($delete_name != '') unset($_SESSION['products'][$delete_name]);
+    
+    //合計の初期値は0
+    $total = 0; 
+
+    $products = isset($_SESSION['products'])? $_SESSION['products']:[];
+
+    foreach($products as $name => $product){
+        //各商品の小計を取得
+        $subtotal = (int)$product['price']*(int)$product['count'];
+        //各商品の小計を$totalに足す
+        $total += $subtotal;
+    }
+?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,12 +31,12 @@
 
             gtag('config', 'UA-13xxxxxxxxx');
         </script>
-        
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>商品一覧｜SQUARE, inc.</title>
+        <title>カート｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -33,6 +53,7 @@
 
         <!-- icon -->
         <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
     </head>
     <body>
         <header>
@@ -49,15 +70,14 @@
                         <span></span>
                     </div>
                 </div>
-
-                <div class="cart">
-                    <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
-                </div>
+                    <div class="cart">
+                        <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
+                    </div>
 
                 <nav class="sp-menu menu">
                     <ul>
                         <li><a href="index.php#service">サービス</a></li>
-                        <li><a href="shop.html">商品一覧</a></li>
+                        <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
@@ -68,7 +88,7 @@
                 <nav class="pc-menu menu-left menu">
                     <ul>
                         <li><a href="index.php#service">サービス</a></li>
-                        <li><a href="shop.html">商品一覧</a></li>
+                        <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
@@ -87,84 +107,70 @@
                 <div class="container">
                     <ul>
                         <li><a href="index.php">TOP</a></li>
-                        <li>商品一覧</li>
+                        <li>カート</li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>SHOP</h3>
-                        <p>商品一覧</p>
+                        <h3>MY CART</h3>
+                        <p>カート</p>
                     </div>
-                    <div class="itemlist">
-                        <ul>
-                            <li>
-                                <img src="products/banana.jpg" >
-                                <div class="item-body">
-                                    <h5>バナナ</h5>
-                                    <p>¥500</p>
-                                    <div class="item-form">
-                                        <input type="text" value="1">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </div><!-- end item-form -->
-                                </div><!-- end item-body--> 
-                            </li>
-                            <li>
-                                <img src="products/cucumber.jpg" >
-                                <div class="item-body">
-                                    <h5>きゅうり</h5>
-                                    <p>¥100</p>
-                                    <div class="item-form">
-                                        <input type="text" value="1">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </div><!-- end item-form -->
-                                </div><!-- end item-body--> 
-                            </li>
-                            <li>
-                                <img src="products/onion.jpg" >
-                                <div class="item-body">
-                                    <h5>玉ねぎ</h5>
-                                    <p>¥200</p>
-                                    <div class="item-form">
-                                        <input type="text" value="1">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </div><!-- end item-form -->
-                                </div><!-- end item-body--> 
-                            </li>
-                            <li>
-                                <img src="products/tomato.jpg" >
-                                <div class="item-body">
-                                    <h5>トマト</h5>
-                                    <p>¥150</p>
-                                    <div class="item-form">
-                                        <input type="text" value="1">
-                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
-                                    </div><!-- end item-form -->
-                                </div><!-- end item-body--> 
-                            </li>
-                        </ul>
-                    </div><!-- end itemlist -->
+                    <div class="cartlist">
+                        <table class="cart-table">
+                            <thead>
+                                <tr>
+                                    <th>商品名</th>
+                                    <th>価格</th>
+                                    <th>個数</th>
+                                    <th>小計</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach($products as $name => $product): ?>
+                                <tr>
+                                    <td label="商品名："><?php echo $name; ?></td>
+                                    <td label="価格：" class="text-right">¥<?php echo $product['price']; ?></td>
+                                    <td label="個数：" class="text-right"><?php echo $product['count']; ?></td>
+                                    <td label="小計：" class="text-right">¥<?php echo $product['price']*$product['count']; ?></td>
+                                    <td>
+                                        <form action="cart.php" method="post">
+                                            <input type="hidden" name="delete_name" value="<?php echo $name; ?>">
+                                            <button type="submit" class="btn btn-red">削除</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                <?php endforeach; ?>
+                                <tr class="total">
+                                    <th colspan="3">合計</th>
+                                    <td colspan="2">¥<?php echo $total; ?></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cart-btn">
+                            <button type="button" class="btn btn-blue">購入手続きへ</button>
+                            <button type="button" class="btn btn-gray">お買い物を続ける</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </main>
         <footer>
             <div class="container">
                 <p>Copyright @ 2018 SQUARE, inc.</p>
             </div>
         </footer>
-
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
-            $(function(){
-    　　　    // ハンバーガーメニューの動作
-                $('.toggle').click(function(){
+            $(function () {
+  　　　    // ハンバーガーメニューの動作
+                $('.toggle').click(function () {
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
-                });    
-            });        
+                });
+            });
         </script>
-
     </body>
 </html>

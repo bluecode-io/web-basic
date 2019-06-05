@@ -107,7 +107,13 @@ form {
     color: #fff;
     margin: 0 ;
 }
-    
+
+.btn-red {
+    border: 1px solid red;
+    color: red;
+    padding: 5px 10px;
+    font-size: 15px;
+}
         
 
 /* header */
@@ -398,3 +404,37 @@ footer {
     padding: 0 5px;
     text-align: right;
 }
+
+/* cart */
+.cart-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.text-right {
+    text-align: right;
+}
+
+    .cart-table th,
+    .cart-table td {
+        border: 1px solid #ebeced;
+        vertical-align: middle;
+        padding: 5px 10px;
+    }
+
+    .cart-table th {
+        background-color: #4c586f;
+        color: #fff;
+    }
+
+    .cart-table button {
+        margin: 0;
+    }
+
+    .total td{ 
+        text-align: center;
+    }
+
+    .cart-btn {
+        text-align: center;
+    }
