@@ -292,3 +292,13 @@ footer {
         font-size: 14px;
         color: #3e3e3b;
     }
+
+/* sns */
+#sns {
+    background-color: #ebeced;
+    padding-bottom: 80px;
+}
+.sns {
+    width: 50%;
+    margin: 0 auto;
+}
