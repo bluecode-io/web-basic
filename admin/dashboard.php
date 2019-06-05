@@ -56,6 +56,10 @@
                             <i class="fas fa-store-alt icon"></i>
                             <p>商品管理</p>
                         </a>
+                        <a href="reservations.php" class="box">
+                            <i class="far fa-calendar-alt icon"></i>
+                            <p>予約管理</p>
+                        </a>
                     </div>
                 </div>
             </div>

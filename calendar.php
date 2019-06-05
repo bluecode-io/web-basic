@@ -15,6 +15,14 @@
     
     function renderCalendar($dt)
     {   
+        //DB接続
+        try{
+            $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+        }catch(PDOException $e){
+            var_dump($e->getMessage());
+            exit;
+        }
+
         $dt->startOfMonth(); //今月の最初の日
         $dt->timezone = 'Asia/Tokyo'; //日本時刻で表示
 
@@ -57,6 +65,13 @@
         $daysInMonth = $dt->daysInMonth;
         
         for ($i = 1; $i <= $daysInMonth; $i++) {
+
+            $reserve_date = $dt->year."-".$dt->month."-".$dt->day; //日付を取得
+            $stmt = $dbh->prepare("SELECT * FROM reservations where reserve_date = :reserve_date");
+            $stmt->bindParam(":reserve_date",$reserve_date);
+            $stmt->execute();
+            $count = $stmt->rowCount(); //予約件数を取得
+
             if($i==1){
                 if ($dt->format('N')!= 1) {
                     $calendar .= '<td colspan="'.($dt->format('N')-1).'"></td>'; //1日が月曜じゃない場合はcospanでその分あける
@@ -67,30 +82,40 @@
                 $calendar .= '</tr><tr>'; //月曜日だったら改行
             }
             $comp = new Carbon($dt->year."-".$dt->month."-".$dt->day); //ループで表示している日
-           $comp_now = Carbon::today(); //今日
+            $comp_now = Carbon::today(); //今日
 
-           if($comp->lt($comp_now)){
-                $calendar .= '<td class="day" style="background-color:#ddd;">'.$dt->day.'</td>';
+            if($comp->lt($comp_now)){
+                $calendar .= '<td class="day" style="background-color:#ddd;">'.$dt->day;
             }else{
 
                 //ループの日と今日を比較
                 if ($comp->eq($comp_now)) {
                         //同じなので緑色の背景にする
-                        $calendar .= '<td class="day" style="background-color:#008b8b;"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
+                        $calendar .= '<td class="day" style="background-color:#008b8b;"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
                 }else{
-                        switch ($dt->format('N')) {
-                            case 6:
-                                $calendar .= '<td class="day" style="background-color:#b0e0e6"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                                break;
-                            case 7:
-                                $calendar .= '<td class="day" style="background-color:#f08080"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                                break;
-                            default:
-                                $calendar .= '<td class="day" ><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                                break;
-                        }
+                    switch ($dt->format('N')) {
+                        case 6:
+                        $calendar .= '<td class="day" style="background-color:#b0e0e6"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                            break;
+                        case 7:
+                        $calendar .= '<td class="day" style="background-color:#f08080"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                            break;
+                        default:
+                        $calendar .= '<td class="day" ><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a>';
+                            break;
                     }
                 }
+            }
+            if($count != 0){
+                $reservations= $stmt->fetchAll(PDO::FETCH_ASSOC);
+                foreach($reservations as $reservation)
+                {
+                    $calendar .= '<br>予約あり</a>';
+                }
+                $calendar .= '</td>';
+            }else{
+                $calendar .='</td>';
+            }
             $dt->addDay();
         }
 
