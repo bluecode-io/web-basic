@@ -59,6 +59,7 @@
                         <li><a href="index.html#news">お知らせ</a></li>
                         <li><a href="index.html#about">会社概要</a></li>
                         <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
 
@@ -68,6 +69,7 @@
                         <li><a href="index.html#news">お知らせ</a></li>
                         <li><a href="index.html#about">会社概要</a></li>
                         <li><a href="index.html#contact">お問合せ</a></li>
+                        <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
             </div>
