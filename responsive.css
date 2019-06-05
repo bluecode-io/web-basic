@@ -52,7 +52,8 @@
     }
 
     /* メニューボタン */
-    .toggle {
+    .toggle,
+    .cart {
         display: block;
         width: 35px;
         height: 30px;
@@ -64,6 +65,11 @@
 
     .toggle:hover {
         cursor: pointer;
+    }
+
+    .cart a{
+        font-size: 20px;
+        color: #fff;
     }
 
     .toggle span{
@@ -142,4 +148,19 @@
             width: 90%;
             margin: 0 auto;
         }
+
+    /* shop */
+    .itemlist ul li {
+        width: 40%;
+        margin: 10px 5%;
+    }
+
+    .item-form {
+        float: inherit;
+        text-align: right;
+    }
+
+    .item-form input {
+        margin-bottom: 5px;
+    }
 }

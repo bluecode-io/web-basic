@@ -36,6 +36,10 @@
         <!-- css -->
         <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="responsive.css">
+
+        <!-- icon -->
+        <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+
     </head>
     <body>
         <header>
@@ -53,12 +57,16 @@
                     </div>
                 </div>
 
+                <div class="cart">
+                    <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
+                </div>
+
                 <nav class="sp-menu menu">
                     <ul>
                         <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="shop.html">商品一覧</a></li>
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
-                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                         <li><a href="register.html">会員登録</a></li>
                     </ul>
@@ -67,14 +75,17 @@
                 <nav class="pc-menu menu-left menu">
                     <ul>
                         <li><a href="index.php#service">サービス</a></li>
+                        <li><a href="shop.html">商品一覧</a></li>
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
-                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                     </ul>
                 </nav>
                 <nav class="pc-menu menu-right menu">
-                    <a href="register.html">会員登録</a>
+                    <ul>
+                        <li><a href="cart.php"><i class="fas fa-shopping-cart"></i></a></li>
+                        <li><a href="register.html">会員登録</a></li>
+                    </ul>
                 </nav>
             </div>
         </header> 

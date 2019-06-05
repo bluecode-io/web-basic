@@ -1,29 +1,3 @@
-<?php
-    // 値の受け取り
-    $name = isset($_POST['name'])? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):'';
-    $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
-    $password = isset($_POST['password'])? htmlspecialchars($_POST['password'],ENT_QUOTES,'utf-8'):'';
-    $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
-    $dm = isset($_POST['dm'])? htmlspecialchars($_POST['dm'],ENT_QUOTES,'utf-8'):'';
-    $dm_flag = ($dm=='受信する')? 1:0;
-
-    //DB接続
-    try{
-        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
-    }catch(PDOException $e){
-        var_dump($e->getMessage());
-        exit;
-    }
-    
-    $stmt = $dbh->prepare("INSERT INTO users(name,email,password,address,dm,created_at,updated_at) VALUES(:name,:email,:password,:address,:dm,now(),now())");
-    $stmt->bindParam(":name",$name);
-    $stmt->bindParam(":email",$email);
-    $stmt->bindParam(":password",$password);
-    $stmt->bindParam(":address",$address);
-    $stmt->bindParam(":dm",$dm_flag);
-    $stmt->execute();
-     
-?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -37,12 +11,12 @@
 
             gtag('config', 'UA-13xxxxxxxxx');
         </script>
-
+        
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>登録内容確認｜SQUARE, inc.</title>
+        <title>商品一覧｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -107,36 +81,90 @@
                     </ul>
                 </nav>
             </div>
-        </header> 
-       <main>
-            <!-- contact　conf -->
-            <div class="wrapper last-wrapper">
+        </header>
+        <main>
+            <div class="breadcrumbs">
                 <div class="container">
-                    <div class="thanks">
-                    <h3>登録完了しました。</h3>
-                    <p>ご登録ありがとうございました。</p>
-                    <button type="button" class="btn btn-gray" onclick="location.href='./index.php'">トップページに戻る</button>
-                    </div>
+                    <ul>
+                        <li><a href="index.php">TOP</a></li>
+                        <li>商品一覧</li>
+                    </ul>
                 </div>
             </div>
-            <!-- end contact -->
-       </main>
-       <footer>
+            <div class="wrapper last-wrapper">
+                <div class="container">
+                    <div class="wrapper-title">
+                        <h3>SHOP</h3>
+                        <p>商品一覧</p>
+                    </div>
+                    <div class="itemlist">
+                        <ul>
+                            <li>
+                                <img src="products/banana.jpg" >
+                                <div class="item-body">
+                                    <h5>バナナ</h5>
+                                    <p>¥500</p>
+                                    <div class="item-form">
+                                        <input type="text" value="1">
+                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
+                                    </div><!-- end item-form -->
+                                </div><!-- end item-body--> 
+                            </li>
+                            <li>
+                                <img src="products/cucumber.jpg" >
+                                <div class="item-body">
+                                    <h5>きゅうり</h5>
+                                    <p>¥100</p>
+                                    <div class="item-form">
+                                        <input type="text" value="1">
+                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
+                                    </div><!-- end item-form -->
+                                </div><!-- end item-body--> 
+                            </li>
+                            <li>
+                                <img src="products/onion.jpg" >
+                                <div class="item-body">
+                                    <h5>玉ねぎ</h5>
+                                    <p>¥200</p>
+                                    <div class="item-form">
+                                        <input type="text" value="1">
+                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
+                                    </div><!-- end item-form -->
+                                </div><!-- end item-body--> 
+                            </li>
+                            <li>
+                                <img src="products/tomato.jpg" >
+                                <div class="item-body">
+                                    <h5>トマト</h5>
+                                    <p>¥150</p>
+                                    <div class="item-form">
+                                        <input type="text" value="1">
+                                        <button type="submit" class="btn-sm btn-blue">カートに入れる</button>
+                                    </div><!-- end item-form -->
+                                </div><!-- end item-body--> 
+                            </li>
+                        </ul>
+                    </div><!-- end itemlist -->
+                </div>
+            </div>
+
+        </main>
+        <footer>
             <div class="container">
                 <p>Copyright @ 2018 SQUARE, inc.</p>
             </div>
         </footer>
+
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function(){
-  　　　    // ハンバーガーメニューの動作
+    　　　    // ハンバーガーメニューの動作
                 $('.toggle').click(function(){
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
-                });
-
-            });
-
+                });    
+            });        
         </script>
+
     </body>
 </html>

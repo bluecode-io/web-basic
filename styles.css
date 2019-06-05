@@ -42,6 +42,13 @@ a:hover,
     margin-top: 20px;
 }
 
+.btn-sm {
+    padding: 3px 10px;
+    font-size: 13px;
+    margin: 0;
+    border-radius: 5px;
+}
+
 h2 {
     font-size: 50px;
 }
@@ -85,12 +92,20 @@ form {
         
 .btn-submit {
     background-color: #4c586f;
+    border: 1px solid #4c586f;
     color: #fff;
 }
 
 .btn-gray {
     border: 1px solid #3e3e3b;
     color: #3e3e3b;
+}
+
+.btn-blue {
+    background-color: #4a80d6;
+    border: 1px solid #4a80d6;
+    color: #fff;
+    margin: 0 ;
 }
     
         
@@ -105,7 +120,8 @@ header {
 }
 
     /* スマホ用メニューを非表示 */
-    .sp-menu {
+    .sp-menu,
+    .cart {
         display: none;
     }
 
@@ -347,4 +363,38 @@ footer {
 
 .thanks h4{
     margin-bottom: 10px;
+}
+
+
+/* shop */
+.itemlist ul:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+.itemlist ul li {
+    display: block;
+    float: left;
+    width: 30%;
+    margin: 10px 0;
+}
+
+.itemlist ul li:nth-child(3n-1) {
+    margin: 10px 5%;
+}
+
+.itemlist img {
+    width: 100%;
+}
+
+.item-form {
+    float: right;
+    margin-top: 15px;
+}
+
+.item-form input{
+    width: 20px;
+    padding: 0 5px;
+    text-align: right;
 }
