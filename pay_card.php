@@ -5,7 +5,6 @@
     $tel = isset($_POST['tel'])? htmlspecialchars($_POST['tel'],ENT_QUOTES,'utf-8'):'';
     $postcode = isset($_POST['postcode'])? htmlspecialchars($_POST['postcode'],ENT_QUOTES,'utf-8'):'';
     $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
-    $payjp_token = isset($_POST['payjp_token'])? htmlspecialchars($_POST['payjp_token'],ENT_QUOTES,'utf-8'):'';
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +24,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>ご購入手続き｜SQUARE, inc.</title>
+        <title>決済カード情報｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -99,45 +98,42 @@
                         <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="cart.php">カート</a></li>
                         <li><a href="pay.php">ご購入者情報</a></li>
-                        <li><a href="pay_card.php">クレジットカード情報</a></li>
-                        <li>ご購入者情報確認</li>
+                        <li>決済カード情報</li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>ご購入者情報</h3>
+                        <h3>決済カード情報</h3>
+                        <span class="error"></span>
                     </div>
-                    <form class="pay-form"  action="pay_end.php" method="POST">
-                        <input type="hidden" name=payjp_token value="<?php echo $payjp_token; ?>">
+                    <form class="pay-form" action="pay_conf.php" method="POST">
+                        <input type="hidden" name="name" value="<?php echo $name; ?>">
+                        <input type="hidden" name="email" value="<?php echo $email; ?>">
+                        <input type="hidden" name="tel" value="<?php echo $tel; ?>">
+                        <input type="hidden" name="postcode" value="<?php echo $postcode; ?>">
+                        <input type="hidden" name="address" value="<?php echo $address; ?>">
                         <div class="form-group">
-                            <p class="form-title">お名前 *</p>
-                            <p><?php echo $name; ?></p>
-                            <input type="hidden" name="name" value="<?php echo $name; ?>">
+                            <p class="form-title">カード番号 *</p>
+                            <input type="text" id="card-number" required>
                         </div>
                         <div class="form-group">
-                            <p class="form-title">Email *</p>
-                            <p><?php echo $email; ?></p>
-                            <input type="hidden" name="email" value="<?php echo $email; ?>">
+                            <p class="form-title">セキュリティーコード *</p>
+                            <input type="text" id="cvc" class="sm-form" required>
                         </div>
                         <div class="form-group">
-                            <p class="form-title">電話番号 *</p>
-                            <p><?php echo $tel; ?></p>
-                            <input type="hidden" name="tel" value="<?php echo $tel; ?>">
+                            <p class="form-title">カード有効期限 *</p>
+                            <label>月</label>
+                            <input type="text" id="exp_month" placeholder="7" class="sm-form" required>
+                            <label>年</label>
+                            <input type="text" id="exp_year" placeholder="2020" class="sm-form" required>
                         </div>
                         <div class="form-group">
-                            <p class="form-title">お届け先 *</p>
-                            <label>郵便番号</label><br>
-                            <p><?php echo $postcode; ?></p>
-                            <input type="hidden" name="postcode" value="<?php echo $postcode; ?>">
-                            <label>住所</label><br>
-                            <p><?php echo $address; ?></p>
-                            <input type="hidden" name="address" value="<?php echo $address; ?>">
+                            <p class="form-title">カード名義 *</p>
+                            <input type="text" id="card-name" placeholder="TARO YAMADA">
                         </div>
-                        <p>この内容で送信してよろしいですか？</p>
-                        <button type="submit" class="btn btn-blue">購入する</button>
-                        <button type="button" class="btn btn-gray" onclick="location.href='./pay.php'">修正する</button>
+                        <button type="button" class="btn btn-blue confirm">確認する</button>
                     </form>
                 </div>
             </div>
@@ -148,12 +144,54 @@
             </div>
         </footer>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://js.pay.jp/"></script>
+        <script type="text/javascript">Payjp.setPublicKey('pk_test_c9axxxxxxxxxxxxxxxxx');</script>
         <script>
             $(function () {
+
+                $(".error").empty(); //最初はエラーは空
+
                 // ハンバーガーメニューの動作
                 $('.toggle').click(function () {
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
+                });
+
+                // クレジットカード動作
+                $(".confirm").click(function() {
+            
+                    $(".error").empty(); //最初はエラーは空
+                    
+                    //それぞれの値を取得
+                    var number = $("#card-number").val();
+                    var cvc = $("#cvc").val();
+                    var exp_month = $("#exp_month").val();
+                    var exp_year = $("#exp_year").val();     
+                    
+                    //すべての値をcardに格納
+                    var card = {
+                        number: number,
+                        cvc: cvc,
+                        exp_month: exp_month,
+                        exp_year: exp_year
+                    };
+
+                    //トークン発行
+                    Payjp.createToken(card, function(s, response) {
+                
+                        if (response.error) {
+                            // エラーの場合、エラー内容を表示
+                            $(".error").append(response.error.message);
+                            return false;
+                        }else {
+                            //OKの場合、response.idでトークンを取得
+                            var token = response.id;
+                            //取得したトークンをformに追加
+                            $(".pay-form").append($('<input type="hidden" name="payjp_token" />').val(token));
+                            //支払い実行ページに送信
+                            $(".pay-form").submit();
+                        }
+                    });
                 });
             });
         </script>

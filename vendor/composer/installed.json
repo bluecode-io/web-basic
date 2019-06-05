@@ -1,0 +1,59 @@
+[
+    {
+        "name": "payjp/payjp-php",
+        "version": "1.0.4",
+        "version_normalized": "1.0.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/payjp/payjp-php.git",
+            "reference": "6f9535ec6f363b3b1458feec7e52e4bf65841f59"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/payjp/payjp-php/zipball/6f9535ec6f363b3b1458feec7e52e4bf65841f59",
+            "reference": "6f9535ec6f363b3b1458feec7e52e4bf65841f59",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "ext-json": "*",
+            "ext-mbstring": "*",
+            "php": ">=5.6"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "~4.0",
+            "satooshi/php-coveralls": "~0.6.1",
+            "squizlabs/php_codesniffer": "~2.0"
+        },
+        "time": "2019-02-15T04:22:05+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "0.1.*-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Payjp\\": "lib/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Payjp and contributors",
+                "homepage": "https://github.com/payjp/payjp-php/graphs/contributors"
+            }
+        ],
+        "description": "Payjp PHP Library",
+        "homepage": "https://pay.jp/",
+        "keywords": [
+            "api",
+            "payjp",
+            "payment processing"
+        ]
+    }
+]

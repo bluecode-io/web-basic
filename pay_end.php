@@ -1,10 +1,15 @@
 <?php
+
+    require_once './vendor/payjp/payjp-php/init.php';
+    \Payjp\Payjp::setApiKey("sk_test_21a7xxxxxxxxxxxxxxxxxxxx");
+
     // 値の受け取り
     $name = isset($_POST['name'])? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):'';
     $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
     $tel = isset($_POST['tel'])? htmlspecialchars($_POST['tel'],ENT_QUOTES,'utf-8'):'';
     $postcode = isset($_POST['postcode'])? htmlspecialchars($_POST['postcode'],ENT_QUOTES,'utf-8'):'';
     $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
+    $payjp_token = isset($_POST['payjp_token'])? htmlspecialchars($_POST['payjp_token'],ENT_QUOTES,'utf-8'):'';
 
     session_start();
     $products = isset($_SESSION['products'])? $_SESSION['products']:[];
@@ -12,6 +17,21 @@
     foreach($products as $key => $product){
        $subtotal = (int)$product['price']*(int)$product['count'];
        $total += $subtotal;
+    }
+
+    $currency = 'jpy';
+
+    $res = \Payjp\Charge::create(array(
+            "card" => $payjp_token,
+            "amount" => (int)$total,
+            "currency" => "jpy"
+    ));
+    if($res['error']){
+        $result = '決済処理に失敗しました。';
+        $result_title = '決済失敗';
+    }else{
+        $result = 'ご購入ありがとうございます。';
+        $result_title = '購入完了';
     }
 
     //DB接続
@@ -64,7 +84,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>購入完了｜SQUARE, inc.</title>
+        <title><?php echo $result_title; ?>｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -135,19 +155,20 @@
                 <div class="container">
                     <ul>
                         <li><a href="index.php">TOP</a></li>
+                        <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="cart.php">カート</a></li>
-                        <li>購入完了</li>
+                        <li><?php echo $result_title; ?></li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>購入完了</h3>
+                        <h3><?php echo $result_title; ?></h3>
                     </div>
                     <div class="wrapper-body">
                         <div class="thanks">
-                            <h4>ご購入ありがとうございました。</h4>
+                            <h4><?php echo $result; ?></h4>
                         </div>
                         <button type="button" class="btn btn-gray" onclick="location.href='index.php'">トップページに戻る</button>
                     </div>

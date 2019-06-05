@@ -87,6 +87,7 @@
                 <div class="container">
                     <ul>
                         <li><a href="index.php">TOP</a></li>
+                        <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="cart.php">カート</a></li>
                         <li>ご購入者情報</li>
                     </ul>
@@ -97,7 +98,7 @@
                     <div class="wrapper-title">
                         <h3>ご購入者情報</h3>
                     </div>
-                    <form class="pay-form"  action="pay_conf.php" method="POST">
+                    <form class="pay-form" action="pay_card.php" method="POST">
                         <div class="form-group">
                             <p class="form-title">お名前 *</p>
                             <input type="text" name="name" required>
