@@ -1,105 +1,13 @@
 <?php
+
     session_start();
     $user_login = isset($_SESSION['user_login'])? $_SESSION['user_login']:false;
 
-    require 'vendor/autoload.php';
-    use Carbon\Carbon;
-
-    $m = (isset($_GET['m']))? htmlspecialchars($_GET['m'], ENT_QUOTES, 'utf-8') : '';
     $y = (isset($_GET['y']))? htmlspecialchars($_GET['y'], ENT_QUOTES, 'utf-8') : '';
-    if($m!=''||$y!=''){
-        $dt = Carbon::createFromDate($y,$m,01);
-    }else{
-        $dt = Carbon::createFromDate();
-    }
-    
-    function renderCalendar($dt)
-    {   
-        $dt->startOfMonth(); //今月の最初の日
-        $dt->timezone = 'Asia/Tokyo'; //日本時刻で表示
-
-        //１ヶ月前
-        $sub = Carbon::createFromDate($dt->year,$dt->month,$dt->day);
-        $subMonth = $sub->subMonth();
-        $subY = $subMonth->year;
-        $subM = $subMonth->month;
-
-        //1ヶ月後
-        $add = Carbon::createFromDate($dt->year,$dt->month,$dt->day);
-        $addMonth = $add->addMonth();
-        $addY = $addMonth->year;
-        $addM = $addMonth->month; 
-
-        //今月
-        $today = Carbon::createFromDate();
-        $todayY = $today->year;
-        $todayM = $today->month;
-
-        //リンク
-        $title = '<h4>'.$dt->format('F Y').'</h4>';//月と年を表示
-        $title .= '<div class="month"><caption><a class="left" href="./calendar.php?y='.$todayY.'&&m='.$todayM.'">今月　</a>';
-        $title .= '<a class="left" href="./calendar.php?y='.$subY.'&&m='.$subM.'"><<前月 </a>';//前月のリンク
-        $title .= '<a class="right" href="./calendar.php?y='.$addY.'&&m='.$addM.'"> 来月>></a></caption></div>';//来月リンク
-        
-        //曜日の配列作成
-        $headings = ['月','火','水','木','金','土','日'];
-    
-        $calendar = '<table class="calendar-table">';
-        $calendar .= '<thead >';
-        foreach($headings as $heading){
-            $calendar .= '<th class="header">'.$heading.'</th>';
-        }
-        $calendar .= '</thead>';
-        $calendar .= '<tbody><tr>';
-
-
-        //今月は何日まであるか
-        $daysInMonth = $dt->daysInMonth;
-        
-        for ($i = 1; $i <= $daysInMonth; $i++) {
-            if($i==1){
-                if ($dt->format('N')!= 1) {
-                    $calendar .= '<td colspan="'.($dt->format('N')-1).'"></td>'; //1日が月曜じゃない場合はcospanでその分あける
-                }
-            }
-
-            if($dt->format('N') == 1){
-                $calendar .= '</tr><tr>'; //月曜日だったら改行
-            }
-            $comp = new Carbon($dt->year."-".$dt->month."-".$dt->day); //ループで表示している日
-           $comp_now = Carbon::today(); //今日
-
-           if($comp->lt($comp_now)){
-                $calendar .= '<td class="day" style="background-color:#ddd;">'.$dt->day.'</td>';
-            }else{
-
-                //ループの日と今日を比較
-                if ($comp->eq($comp_now)) {
-                        //同じなので緑色の背景にする
-                        $calendar .= '<td class="day" style="background-color:#008b8b;"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                }else{
-                        switch ($dt->format('N')) {
-                            case 6:
-                                $calendar .= '<td class="day" style="background-color:#b0e0e6"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                                break;
-                            case 7:
-                                $calendar .= '<td class="day" style="background-color:#f08080"><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                                break;
-                            default:
-                                $calendar .= '<td class="day" ><a href="./reserve.php?y='.$dt->year.'&&m='.$dt->month.'&&d='.$dt->day.'">'.$dt->day.'</a></td>';
-                                break;
-                        }
-                    }
-                }
-            $dt->addDay();
-        }
-
-        $calendar .= '</tr></tbody>';
-        $calendar .= '</table>';
-
-        return $title.$calendar;
-    }
+    $m = (isset($_GET['m']))? htmlspecialchars($_GET['m'], ENT_QUOTES, 'utf-8') : '';   
+    $d = (isset($_GET['d']))? htmlspecialchars($_GET['d'], ENT_QUOTES, 'utf-8') : '';   
 ?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -118,7 +26,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>無料ご相談会予約｜SQUARE, inc.</title>
+        <title>RESERVATION｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -136,6 +44,7 @@
         <!-- icon -->
         <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     </head>
+
     <body>
         <header>
             <div class="container">
@@ -151,7 +60,6 @@
                         <span></span>
                     </div>
                 </div>
-
                 <div class="cart">
                     <a href="cart.php"><i class="fas fa-shopping-cart"></i></a>
                 </div>
@@ -162,6 +70,7 @@
                         <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                         <li><a href="calendar.php">無料ご相談会</a></li>
                         <?php if($user_login==true): ?>
@@ -178,6 +87,7 @@
                         <li><a href="shop.php">商品一覧</a></li>
                         <li><a href="index.php#news">お知らせ</a></li>
                         <li><a href="index.php#about">会社概要</a></li>
+                        <li><a href="index.php#contact">お問合せ</a></li>
                         <li><a href="ブログのURL">ブログ</a></li>
                         <li><a href="calendar.php">無料ご相談会</a></li>
                     </ul>
@@ -193,22 +103,47 @@
                     </ul>
                 </nav>
             </div>
-        </header> 
+        </header>
         <main>
             <div class="breadcrumbs">
                 <div class="container">
                     <ul>
                         <li><a href="index.php">TOP</a></li>
-                        <li>無料ご相談会予約</li>
+                        <li><a href="calendar.php">無料ご相談会予約</a></li>
+                        <li>ご予約</li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>無料ご相談会予約</h3>
+                        <h3>RESERVATION</h3>
+                        <p>ご予約</p>
                     </div>
-                    <?php echo renderCalendar($dt); ?>
+                    <form class="reserve-form" method="POST" action="reserved.php">
+                        <div class="form-group">
+                            <label for="reserveDate">予約日</label>
+                            <input type="text" class="form-control" id="reserveDate" value="<?php echo $y;?>年<?php echo $m; ?>月<?php echo $d; ?>日" disabled="disabled">
+                            <input type="hidden" name="reserve_date" value="<?php echo $y; ?>-<?php echo $m; ?>-<?php echo $d; ?>">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">氏名 *</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tel">電話番号 *</label>
+                            <input type="text" class="form-control" name="tel" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">メールアドレス *</label>
+                            <input type="text" class="form-control" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">来訪人数 *</label>
+                            <input type="text" class="form-control" name="number" required>
+                        </div>
+                        <button type="submit" class="btn btn-submit">予約する</button>
+                    </form>
                 </div>
             </div>
         </main>
@@ -220,7 +155,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function () {
-                // ハンバーガーメニューの動作
+  　　　    // ハンバーガーメニューの動作
                 $('.toggle').click(function () {
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
