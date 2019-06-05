@@ -89,6 +89,14 @@ a:hover,
     padding: 10px 15px;
     font-size: 15px;
 }
+
+.btn-gray {
+    background-color: #a2aab0;
+    border: 1px solid #a2aab0;
+    color: #fff;
+    padding: 10px 15px;
+    font-size: 15px;
+}
     
 .form-group {
     margin-bottom: 20px;
@@ -280,4 +288,28 @@ footer {
 
 .serch button {
     padding: 5px 10px;
+}
+
+/*paging*/
+.paging {
+    margin: 0 0 10px;
+    padding: 10px 10px 5px;
+    text-align: right;
+}
+
+.paging li {
+    display: inline;
+    margin: 0 1px;
+}
+
+.paging a,
+.paging span {
+    color: #4c586f;
+    padding: 5px 8px;
+}
+
+.paging span {
+    background-color: #4c586f;
+    border-radius: 5px;
+    color: #fff;
 }
