@@ -1,0 +1,193 @@
+/* css reset */
+@charset "utf-8";
+html, body, div, span, iframe,
+h1, h2, h3, h4, h5, h6, p, img, a,
+ol, ul, li,
+form, label,
+table, tbody, tfoot, thead, tr, th, td,
+article,footer, header, menu, nav, section {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  list-style: none;
+  text-decoration: none;
+  vertical-align: baseline;
+}
+
+/* 共通CSS */
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+html {
+    min-height: 100%;
+    position: relative;
+}
+
+.wrapper {
+    padding: 80px 0;
+    margin-bottom: 80px;
+}
+
+    .wrapper-title {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #a2aab0;
+    }
+
+    .wrapper-title h3{
+        font-size: 25px;
+        color: #3e3e3b;
+    }
+
+    .wrapper-title p {
+        font-size: 13px;
+        color: #a2aab0;
+    }
+
+.btn {
+    padding: 10px 30px;
+    font-size: 15px;
+    border-radius: 20px;
+    border: none;
+    margin-top: 20px;
+}
+
+.btn:hover{
+    cursor: pointer;
+    opacity: .8;
+}
+
+.btn-submit {
+    background-color: #4c586f;
+    color: #fff;
+}
+
+/* login */
+.login-wrapper {
+    text-align: center;
+    padding: 80px 0 ;
+}
+    .login-wrapper-title {
+        margin-bottom: 30px;
+    }
+
+    .login-wrapper-title h3{
+        font-size: 25px;
+        color: #3e3e3b;
+    }
+
+    .login-wrapper-title p {
+        font-size: 13px;
+        color: #a2aab0;
+    }
+
+.login {
+    padding: 50px 0; 
+    width: 50%;
+    margin: 0 auto;
+    background-color: #ebeced;
+}
+    .login-form {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .login-form input {
+        border: none;
+        width: 100%;
+        height: 25px;
+    }
+
+    .login-form p {
+        text-align: left;
+    }
+
+    .form-group {
+        margin-bottom: 10px;
+    }
+
+/* dashboard.html */
+/* header */
+header {
+    width: 100%;
+    height: 60px;
+    background-color: #ebeced;
+    position: fixed;
+    z-index: 1;
+}
+
+.header-logo h1{
+    float:left;
+    padding-right: 15px;
+    font-size: 18px;
+}
+
+.header-logo a {
+    color: #4c586f;
+    line-height: 60px;
+}
+
+    .menu-icon {
+        display: none;
+    }
+
+    .menu-right {
+        float:right;
+        line-height: 60px;
+    }
+
+    .menu-right a {
+        color: #4c586f;
+    }
+
+    .menu-right a:hover {
+        color: #a2aab0;
+    }
+
+/* boxs */
+.boxs {
+        display: flex;
+    }
+
+    .box {
+        display: inline-block;
+        width: 20%;
+        height: 200px;
+        border:1px solid #ebeced;
+        margin: 0 5px;
+        text-align: center;
+        color: #3e3e3b;
+        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+        }
+    .box:hover {
+        color: #4c586f;
+    }
+    .icon{
+        font-size: 80px;
+        height: 130px;
+        line-height: 130px;
+    }
+    .box p {
+        font-size: 20px;
+        font-weight: bold;
+    }
+
+/* footer */
+footer {
+    height: 80px;
+    background-color: #4c586f;
+    text-align: right;
+    bottom: 0;
+    position: absolute;
+    width: 100%;
+
+}
+
+    footer p {
+        line-height: 80px;
+        color: #fff;
+        font-size: 12px;
+    }

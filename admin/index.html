@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <title>管理画面ログイン</title>
+
+        <link rel="icon" href="favicon.ico">
+
+        <!-- css -->
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+        <div class="login-wrapper" id="login">
+            <div class="container">
+                <div class="login">
+                    <div class="login-wrapper-title">
+                        <h3>ログイン</h3>
+                    </div>
+                    <form class="login-form" action="check.php" method="POST">
+                        <div class="form-group">
+                            <p>メールアドレス</p>
+                            <input type="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <p>パスワード</p>
+                            <input type="password" name="password" required>
+                        </div>
+                        <button type="submit" class="btn btn-submit">ログイン</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
