@@ -48,6 +48,10 @@
                             <i class="fas fa-users icon"></i>
                             <p>会員管理</p>
                         </a>
+                        <a href="orders.php" class="box">
+                            <i class="fas fa-ambulance icon"></i>
+                            <p>受注管理</p>
+                        </a>
                     </div>
                 </div>
             </div>
