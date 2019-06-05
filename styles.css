@@ -438,3 +438,17 @@ footer {
     .cart-btn {
         text-align: center;
     }
+
+/* pay */
+.pay-form {
+    background-color: #ebeced;
+    padding: 35px 30px;
+}
+
+.form-group label {
+    font-size: 13px;
+}
+
+.sm-form {
+    width: 10%;
+}

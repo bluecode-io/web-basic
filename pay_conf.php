@@ -1,22 +1,11 @@
 <?php
+    // 値の受け取り
+    $name = isset($_POST['name'])? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):'';
+    $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
+    $tel = isset($_POST['tel'])? htmlspecialchars($_POST['tel'],ENT_QUOTES,'utf-8'):'';
+    $postcode = isset($_POST['postcode'])? htmlspecialchars($_POST['postcode'],ENT_QUOTES,'utf-8'):'';
+    $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
 
-    $delete_name = (isset($_POST['delete_name']))? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
-
-    session_start();
-
-    if($delete_name != '') unset($_SESSION['products'][$delete_name]);
-    
-    //合計の初期値は0
-    $total = 0; 
-
-    $products = isset($_SESSION['products'])? $_SESSION['products']:[];
-
-    foreach($products as $name => $product){
-        //各商品の小計を取得
-        $subtotal = (int)$product['price']*(int)$product['count'];
-        //各商品の小計を$totalに足す
-        $total += $subtotal;
-    }
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +25,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>カート｜SQUARE, inc.</title>
+        <title>ご購入手続き｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -107,53 +96,45 @@
                 <div class="container">
                     <ul>
                         <li><a href="index.php">TOP</a></li>
-                        <li>カート</li>
+                        <li><a href="cart.php">カート</a></li>
+                        <li>ご購入者情報</li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>MY CART</h3>
-                        <p>カート</p>
+                        <h3>ご購入者情報</h3>
                     </div>
-                    <div class="cartlist">
-                        <table class="cart-table">
-                            <thead>
-                                <tr>
-                                    <th>商品名</th>
-                                    <th>価格</th>
-                                    <th>個数</th>
-                                    <th>小計</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($products as $name => $product): ?>
-                                <tr>
-                                    <td label="商品名："><?php echo $name; ?></td>
-                                    <td label="価格：" class="text-right">¥<?php echo $product['price']; ?></td>
-                                    <td label="個数：" class="text-right"><?php echo $product['count']; ?></td>
-                                    <td label="小計：" class="text-right">¥<?php echo $product['price']*$product['count']; ?></td>
-                                    <td>
-                                        <form action="cart.php" method="post">
-                                            <input type="hidden" name="delete_name" value="<?php echo $name; ?>">
-                                            <button type="submit" class="btn btn-red">削除</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                                <tr class="total">
-                                    <th colspan="3">合計</th>
-                                    <td colspan="2">¥<?php echo $total; ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="cart-btn">
-                            <button type="button" class="btn btn-blue" onclick="location.href='pay.php'" <?php if(empty($products)) echo 'disabled="disabled"'; ?>>購入手続きへ</button>
-                            <button type="button" class="btn btn-gray" onclick="location.href='shop.php'">お買い物を続ける</button>
+                    <form class="pay-form"  action="pay_end.php" method="POST">
+                        <div class="form-group">
+                            <p class="form-title">お名前 *</p>
+                            <p><?php echo $name; ?></p>
+                            <input type="hidden" name="name" value="<?php echo $name; ?>">
                         </div>
-                    </div>
+                        <div class="form-group">
+                            <p class="form-title">Email *</p>
+                            <p><?php echo $email; ?></p>
+                            <input type="hidden" name="email" value="<?php echo $email; ?>">
+                        </div>
+                        <div class="form-group">
+                            <p class="form-title">電話番号 *</p>
+                            <p><?php echo $tel; ?></p>
+                            <input type="hidden" name="tel" value="<?php echo $tel; ?>">
+                        </div>
+                        <div class="form-group">
+                            <p class="form-title">お届け先 *</p>
+                            <label>郵便番号</label><br>
+                            <p><?php echo $postcode; ?></p>
+                            <input type="hidden" name="postcode" value="<?php echo $postcode; ?>">
+                            <label>住所</label><br>
+                            <p><?php echo $address; ?></p>
+                            <input type="hidden" name="address" value="<?php echo $address; ?>">
+                        </div>
+                        <p>この内容で送信してよろしいですか？</p>
+                        <button type="submit" class="btn btn-blue">購入する</button>
+                        <button type="button" class="btn btn-gray" onclick="location.href='./pay.php'">修正する</button>
+                    </form>
                 </div>
             </div>
         </main>
@@ -165,7 +146,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function () {
-  　　　    // ハンバーガーメニューの動作
+                // ハンバーガーメニューの動作
                 $('.toggle').click(function () {
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);

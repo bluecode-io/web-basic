@@ -1,22 +1,50 @@
 <?php
-
-    $delete_name = (isset($_POST['delete_name']))? htmlspecialchars($_POST['delete_name'], ENT_QUOTES, 'utf-8') : '';
+    // 値の受け取り
+    $name = isset($_POST['name'])? htmlspecialchars($_POST['name'],ENT_QUOTES,'utf-8'):'';
+    $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
+    $tel = isset($_POST['tel'])? htmlspecialchars($_POST['tel'],ENT_QUOTES,'utf-8'):'';
+    $postcode = isset($_POST['postcode'])? htmlspecialchars($_POST['postcode'],ENT_QUOTES,'utf-8'):'';
+    $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
 
     session_start();
-
-    if($delete_name != '') unset($_SESSION['products'][$delete_name]);
-    
-    //合計の初期値は0
-    $total = 0; 
-
     $products = isset($_SESSION['products'])? $_SESSION['products']:[];
-
-    foreach($products as $name => $product){
-        //各商品の小計を取得
-        $subtotal = (int)$product['price']*(int)$product['count'];
-        //各商品の小計を$totalに足す
-        $total += $subtotal;
+    $total = 0;
+    foreach($products as $key => $product){
+       $subtotal = (int)$product['price']*(int)$product['count'];
+       $total += $subtotal;
     }
+
+    //DB接続
+    try{
+        $dbh = new PDO("mysql:host=localhost;dbname=corporate_db","root","root");
+    }catch(PDOException $e){
+        var_dump($e->getMessage());
+        exit;
+    }
+
+    //ordersテーブル
+    $stmt1 = $dbh->prepare("INSERT INTO orders(name,email,tel,postcode,address,total,created_at,updated_at) VALUES(:name,:email,:tel,:postcode,:address,:total,now(),now())");
+    $stmt1->bindParam(':name',$name);
+    $stmt1->bindParam(':email',$email);
+    $stmt1->bindParam(':tel',$tel);
+    $stmt1->bindParam(':postcode',$postcode);
+    $stmt1->bindParam(':address',$address);
+    $stmt1->bindParam(':total',$total);
+    $stmt1->execute();
+
+    //ordersのid取得
+    $order_id = $dbh->lastInsertId();
+
+    //order_productsテーブル
+    foreach($products as $key => $product){
+        $stmt2 = $dbh->prepare("INSERT INTO order_products(order_id,product_name,num,price) VALUES(:order_id,:product_name,:num,:price)");
+        $stmt2->bindParam(':order_id',$order_id);
+        $stmt2->bindParam(':product_name',$key);
+        $stmt2->bindParam(':num',$product['count']);
+        $stmt2->bindParam(':price',$product['price']);
+        $stmt2->execute();
+    }
+    unset($_SESSION['products']);
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,7 +64,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        <title>カート｜SQUARE, inc.</title>
+        <title>購入完了｜SQUARE, inc.</title>
         <meta name="description" content="ここにサイトの説明文">
 
         <meta property="og:title" content="SQUARE, inc." />
@@ -107,52 +135,21 @@
                 <div class="container">
                     <ul>
                         <li><a href="index.php">TOP</a></li>
-                        <li>カート</li>
+                        <li><a href="cart.php">カート</a></li>
+                        <li>購入完了</li>
                     </ul>
                 </div>
             </div>
             <div class="wrapper last-wrapper">
                 <div class="container">
                     <div class="wrapper-title">
-                        <h3>MY CART</h3>
-                        <p>カート</p>
+                        <h3>購入完了</h3>
                     </div>
-                    <div class="cartlist">
-                        <table class="cart-table">
-                            <thead>
-                                <tr>
-                                    <th>商品名</th>
-                                    <th>価格</th>
-                                    <th>個数</th>
-                                    <th>小計</th>
-                                    <th>操作</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php foreach($products as $name => $product): ?>
-                                <tr>
-                                    <td label="商品名："><?php echo $name; ?></td>
-                                    <td label="価格：" class="text-right">¥<?php echo $product['price']; ?></td>
-                                    <td label="個数：" class="text-right"><?php echo $product['count']; ?></td>
-                                    <td label="小計：" class="text-right">¥<?php echo $product['price']*$product['count']; ?></td>
-                                    <td>
-                                        <form action="cart.php" method="post">
-                                            <input type="hidden" name="delete_name" value="<?php echo $name; ?>">
-                                            <button type="submit" class="btn btn-red">削除</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                <?php endforeach; ?>
-                                <tr class="total">
-                                    <th colspan="3">合計</th>
-                                    <td colspan="2">¥<?php echo $total; ?></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="cart-btn">
-                            <button type="button" class="btn btn-blue" onclick="location.href='pay.php'" <?php if(empty($products)) echo 'disabled="disabled"'; ?>>購入手続きへ</button>
-                            <button type="button" class="btn btn-gray" onclick="location.href='shop.php'">お買い物を続ける</button>
+                    <div class="wrapper-body">
+                        <div class="thanks">
+                            <h4>ご購入ありがとうございました。</h4>
                         </div>
+                        <button type="button" class="btn btn-gray" onclick="location.href='index.php'">トップページに戻る</button>
                     </div>
                 </div>
             </div>
@@ -165,7 +162,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
         <script>
             $(function () {
-  　　　    // ハンバーガーメニューの動作
+                // ハンバーガーメニューの動作
                 $('.toggle').click(function () {
                     $("header").toggleClass('open');
                     $(".sp-menu").slideToggle(500);
