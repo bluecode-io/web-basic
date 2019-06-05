@@ -223,7 +223,6 @@ footer {
     bottom: 0;
     position: absolute;
     width: 100%;
-
 }
 
     footer p {
@@ -268,3 +267,17 @@ footer {
     .list th {
         background-color: #ebeced;
     }
+
+/* users.php */
+.serch {
+    text-align: right;
+    width: 100%;
+}
+.serch input {
+    width: 30%;
+    padding: 4px;
+}
+
+.serch button {
+    padding: 5px 10px;
+}

@@ -44,7 +44,10 @@
                             <i class="far fa-newspaper icon"></i><!-- fontawesome利用部分 -->
                             <p>記事管理</p>
                         </a>
-
+                        <a href="users.php" class="box">
+                            <i class="fas fa-users icon"></i>
+                            <p>会員管理</p>
+                        </a>
                     </div>
                 </div>
             </div>
