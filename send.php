@@ -107,6 +107,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
         <title>お問合せ内容送信｜SQUARE, inc.</title>
+        <meta name="description" content="ここにサイトの説明文">
+
+        <meta property="og:title" content="SQUARE, inc." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://ドメイン/img/bg.png" />
+        <meta property="og:url" content="https://ドメイン" />
+        <meta property="og:description" content="SQUARE, inc.のコーポレートサイトです">
 
         <link rel="icon" href="favicon.ico">
 

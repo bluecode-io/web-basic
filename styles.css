@@ -264,3 +264,31 @@ footer {
     .thanks h4 {
         margin-bottom: 10px;
     }
+
+/* breadcrumb */
+.breadcrumbs {
+    padding-top: 60px;
+    background-color: #ebeced;
+}
+    .breadcrumbs ul {
+        padding: 10px 0;
+    }
+
+    .breadcrumbs li {
+        display: inline;
+        font-size: 13px;
+    }
+
+    .breadcrumbs li a{
+        color: #4c586f;
+        font-size: 13px;
+    }
+
+    .breadcrumbs ul li::before {
+        padding: 0 10px 0 0;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f105";
+        font-size: 14px;
+        color: #3e3e3b;
+    }

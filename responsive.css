@@ -111,4 +111,18 @@
     form {
         width: auto;
     }
+
+    /* breadcrumb */
+    .breadcrumbs li,
+    .breadcrumbs li a {
+        font-size: 10px;
+    }
+    .breadcrumbs ul li::before {
+        padding: 0 5px 0 0;
+        font-family: "Font Awesome 5 Free";
+        font-weight: 900;
+        content: "\f105";
+        font-size: 10px;
+        color: #3e3e3b;
+    }
 }
