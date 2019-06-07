@@ -7,7 +7,7 @@
     $email = isset($_POST['email'])? htmlspecialchars($_POST['email'],ENT_QUOTES,'utf-8'):'';
     $password = isset($_POST['password'])? htmlspecialchars($_POST['password'],ENT_QUOTES,'utf-8'):'';
     $address = isset($_POST['address'])? htmlspecialchars($_POST['address'],ENT_QUOTES,'utf-8'):'';
-    $dm = isset($_POST['dm'])? $_POST['dm']:[];
+    $dm = isset($_POST['dm'])? htmlspecialchars($_POST['dm'], ENT_QUOTES, 'utf-8'):'';
 ?>
 <!DOCTYPE html>
 <html>
